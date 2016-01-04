@@ -1,4 +1,5 @@
 #!/bin/bash
+# Must be run with root permissions
 
 if [[ -z "$1" ]]; then
  echo 'You must provide the server IP address as the first argument.' >&2 && exit 1
@@ -11,8 +12,8 @@ fi
 SERVER_ADDR=$1
 PARTITION=$2
 
-sudo asr restore --source asr://$SERVER_ADDR --target $PARTITION \
+asr restore --source asr://$SERVER_ADDR --target $PARTITION \
                  --erase --noprompt --noverify \
-  && sudo bless -mount $PARTITION \
+  && bless -mount $PARTITION \
   && echo 'Restore completed. Rebooting to restored partition.' \
-  && sudo shutdown -r now
+  && shutdown -r now
