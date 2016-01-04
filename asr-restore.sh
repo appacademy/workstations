@@ -12,8 +12,8 @@ fi
 SERVER_ADDR=$1
 PARTITION=$2
 
-asr restore --source asr://$SERVER_ADDR --target $PARTITION \
-                 --erase --noprompt --noverify \
-  && bless -mount $PARTITION \
+asr restore --source "asr://$SERVER_ADDR" --target "$PARTITION" \
+            --erase --noprompt --noverify \
+  && bless -mount "$PARTITION" \
   && echo 'Restore completed. Rebooting to restored partition.' \
   && shutdown -r now
