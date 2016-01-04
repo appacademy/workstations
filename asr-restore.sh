@@ -1,11 +1,15 @@
 #!/bin/bash
 
-PARTITION="/Volumes/AAStudent"
-SERVER_ADDR=$1
-
 if [[ -z "$1" ]]; then
- echo 'You must provide the server IP address as an argument.' >&2 && exit 1
+ echo 'You must provide the server IP address as the first argument.' >&2 && exit 1
 fi
+
+if [[ -z "$2" ]]; then
+ echo 'You must provide the partition path as the second argument.' >&2 && exit 1
+fi
+
+SERVER_ADDR=$1
+PARTITION=$2
 
 sudo asr restore --source asr://$SERVER_ADDR --target $PARTITION \
                  --erase --noprompt --noverify \
