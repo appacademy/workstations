@@ -31,5 +31,5 @@ sudo asr restore --source asr://$SERVER_ADDR --target $PARTITION \
 
 chmod u+x "$TEMP_SCRIPT"
 open -a Terminal "$TEMP_SCRIPT"
-sleep 3 # give time for the script to load before removing
+sleep 10 # give time for the script to load before removing
 rm "$TEMP_SCRIPT"
