@@ -13,6 +13,6 @@ It must be invoked as the root user."
 cd "$(dirname $0)" # go to the script's dir
 
 echo "--------------- $(date '+%D %T') ---------------" >> .asr-restore.log
-sudo -u jrw open -a Terminal asr-log-reader.sh
+sudo -u appacademy open -a Terminal asr-log-reader.sh
 
 ./asr-restore.sh $SERVER_ADDR $PARTITION >> .asr-restore.log 2>&1
