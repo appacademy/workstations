@@ -7,7 +7,7 @@ else
   SERVER_ADDR='192.168.2.195'
 fi
 
-PARTITION_INFO="$(dirname $0)/partition-info.rb"
+PARTITION_INFO="$(dirname $0)/partition_info.rb"
 
 root="$($PARTITION_INFO root)"
 restore="$($PARTITION_INFO restore)"
@@ -17,7 +17,7 @@ diskutil rename "$root" "AAStudentBackup"
 
 asr restore --source "asr://$SERVER_ADDR" \
             --target "$restore" --erase --noprompt \
-  && diskutil rename $"restore" "AAStudent" \
+  && diskutil rename "$restore" "AAStudent" \
   && bless --mount "/Volumes/AAStudent" --setBoot \
   && echo 'Restore completed. Rebooting to restored partition...' \
   && shutdown -r now

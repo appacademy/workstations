@@ -2,4 +2,4 @@ echo 'This is the ASR log reader. Killing this program does not kill the ASR cli
 echo ''
 
 cd "$(dirname $0)" # go to the script's dir
-tail -f .asr-restore.log
+tail -f .restore.log
