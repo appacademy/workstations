@@ -12,9 +12,9 @@ def get_device(type)
     else
       devices['restore'] = match['device']
     end
-
-    return devices[type]
   end
+
+  return devices[type]
 end
 
 def get_volume_name(volume)
