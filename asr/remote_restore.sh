@@ -12,6 +12,6 @@ It must be invoked as the root user."
 cd "$(dirname $0)" # go to the script's dir
 
 echo "--------------- $(date '+%D %T') ---------------" >> .restore.log
-sudo -u appacademy open -a Terminal log-reader.sh
+sudo -u appacademy open -a Terminal log_reader.sh
 
 ./restore.sh "$SERVER_ADDR" >> .restore.log 2>&1
