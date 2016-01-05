@@ -12,11 +12,12 @@ PARTITION_INFO="$(dirname $0)/partition-info.rb"
 root="$($PARTITION_INFO root)"
 restore="$($PARTITION_INFO restore)"
 
-diskutil rename $restore AAStudentRestore
-diskutil rename $root AAStudentOld
+diskutil rename "$restore" "AAStudentRestoring"
+diskutil rename "$root" "AAStudentBackup"
 
 asr restore --source "asr://$SERVER_ADDR" \
-            --target $restore --erase --noprompt \
-  && bless --mount "$($PARTITION_INFO $restore)" --setBoot \
+            --target "$restore" --erase --noprompt \
+  && diskutil rename $"restore" "AAStudent" \
+  && bless --mount "/Volumes/AAStudent" --setBoot \
   && echo 'Restore completed. Rebooting to restored partition...' \
   && shutdown -r now
