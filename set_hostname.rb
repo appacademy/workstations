@@ -2,14 +2,21 @@
 # requires root privileges
 
 require 'yaml'
-require 'active_support/inflector'
 
 DATA_FILE = "/Users/appacademy/.aa_data.yaml"
 
 data = YAML.load_file(DATA_FILE)
-name = "AAStudent ##{data['id']} (#{data['pod']} #{data['station']})"
+id = data['id']
+pod = data['pod']
+station = data['station']
 
-`scutil --set ComputerName "#{name}"`
-`scutil --set HostName "#{name}"`
-`scutil --set LocalHostName "#{name.parameterize}"`
-`hostname #{name.parameterize}`
+hostname = "AAStudent ##{id} (#{pod} #{station})"
+local_hostname = "#{pod.downcase.gsub(' ', '-')}-#{station}"
+
+puts hostname
+puts local_hostname
+
+`scutil --set ComputerName "#{hostname}"`
+`scutil --set HostName "#{hostname}"`
+`scutil --set LocalHostName "#{local_hostname}"`
+`hostname #{local_hostname}`

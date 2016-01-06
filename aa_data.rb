@@ -42,7 +42,7 @@ with_recovery_mounted do
   case ARGV[0]
   when 'restore'
     restore_data
-  when 'save'
+  when /save|set/
     save_data(ARGV.drop(1))
   else
     raise 'Invalid argument. Must be "restore" or "save".'
