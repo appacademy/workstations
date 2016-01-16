@@ -1,16 +1,17 @@
 #!/bin/bash
-# Must be run with root permissions
 
-if [[ -n "$1" ]]; then
-  SERVER_ADDR=$1
-else
-  SERVER_ADDR='192.168.2.195'
-fi
+fail() {
+  echo "$(basename $0) failed: $1" >&2
+  exit 1
+}
 
-PARTITION_INFO="$(dirname $0)/../partition_info.rb"
+[[ $USER == 'root' ]] || fail "must be run as root"
+[[ -n "$1" ]] || fail 'You must provide the server IP address as the argument.'
 
-root="$($PARTITION_INFO type root)"
-restore="$($PARTITION_INFO type restore)"
+cd "$(dirname $0)"
+
+root="$(./get_volume.rb root)"
+restore="$(./get_volume.rb restore)"
 
 diskutil rename "$restore" "AAStudentRestoring"
 diskutil rename "$root" "AAStudentBackup"
