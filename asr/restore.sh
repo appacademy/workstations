@@ -7,10 +7,10 @@ else
   SERVER_ADDR='192.168.2.195'
 fi
 
-PARTITION_INFO="$(dirname $0)/partition_info.rb"
+PARTITION_INFO="$(dirname $0)/../partition_info.rb"
 
-root="$($PARTITION_INFO root)"
-restore="$($PARTITION_INFO restore)"
+root="$($PARTITION_INFO type root)"
+restore="$($PARTITION_INFO type restore)"
 
 diskutil rename "$restore" "AAStudentRestoring"
 diskutil rename "$root" "AAStudentBackup"

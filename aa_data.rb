@@ -1,15 +1,18 @@
 #!/usr/bin/env ruby
 require 'yaml'
+require_relative './partition_info'
 
 USER = "appacademy"
 RECOVERY_FILE = "/Volumes/Recovery HD/.aa_data.yaml"
 LOCAL_FILE = "/Users/#{USER}/.aa_data.yaml"
+RECOVERY_PARTITION = get_device_by_name("Recovery HD")
 
 def with_recovery_mounted
-  `diskutil mount /dev/disk0s3`
+  `diskutil mount "#{RECOVERY_PARTITION}"`
   yield
 ensure
-  `diskutil unmount /dev/disk0s3`
+  puts RECOVERY_PARTITION
+  `diskutil unmount "#{RECOVERY_PARTITION}"`
 end
 
 def restore_data
@@ -33,7 +36,7 @@ def parse_args(args)
 end
 
 def update_yaml(new_data)
-  data = File.exist?(RECOVERY_FILE) ? YAML::load_file(RECOVERY_FILE) : {}
+  data = File.exist?(RECOVERY_FILE) ? YAML.load_file(RECOVERY_FILE) : {}
   data.update(new_data)
   File.open(RECOVERY_FILE, 'w') { |f| f.write data.to_yaml }
 end
