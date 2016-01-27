@@ -8,6 +8,8 @@ fail() {
 [[ $USER == 'root' ]] || fail "must be run as root"
 [[ -n "$1" ]] || fail 'You must provide the server IP address as the argument.'
 
+SERVER_ADDR="$1"
+
 cd "$(dirname $0)"
 
 root="$(./get_volume.rb root)"
