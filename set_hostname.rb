@@ -10,11 +10,8 @@ id = data['id']
 pod = data['pod']
 station = data['station']
 
-hostname = "AAStudent ##{id} (#{pod} #{station})"
-local_hostname = "#{pod.downcase.gsub(' ', '-')}-#{station}"
-
-puts hostname
-puts local_hostname
+hostname = "AAStudent #{pod} #{station} (##{id})"
+local_hostname = "aa-#{pod.downcase.tr(' ', '-')}-#{station}-id#{id}"
 
 `scutil --set ComputerName "#{hostname}"`
 `scutil --set HostName "#{hostname}"`
