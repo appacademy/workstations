@@ -4,7 +4,8 @@ This is the repo where we manage all the admin scripts that the student
 computers use. This includes:
 
 * system restore scripts
-* nightly settings resets
+* persistent machine-specific settings
+* nightly app settings resets
 * nightly repo fetches
 * ad-hoc scripts (e.g. force-refresh Github tabs)
 
