@@ -18,4 +18,4 @@ tell app "System Events" to display dialog ¬
 
 # reset the data
 cd app_management
-reset_chrome_data
+chrome_data reset

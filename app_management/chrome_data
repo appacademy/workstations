@@ -1,0 +1,36 @@
+#!/bin/bash
+# m h d m dow
+#
+
+ADMIN_DIR="$(cd "$(dirname "$0")/.." && pwd)"
+CHROME_CACHES="$HOME/Library/Caches/Google/Chrome/Default"
+CHROME_SETTINGS="$HOME/Library/Application Support/Google/Chrome"
+BACKUP_CHROME_SETTINGS="$ADMIN_DIR/cache/Chrome"
+
+save() {
+  rm -rf "$BACKUP_CHROME_SETTINGS"
+  cp -R "$CHROME_SETTINGS" "$BACKUP_CHROME_SETTINGS"
+}
+
+reset() {
+  if pgrep 'Google Chrome' > /dev/null; then
+    osascript -e 'quit app "Google Chrome"'
+    sleep 5
+    pkill 'Google Chrome'
+  fi
+
+  rm -rf "$CHROME_CACHES"/*
+  rm -rf "$CHROME_SETTINGS"
+  cp -R "$BACKUP_CHROME_SETTINGS" "$CHROME_SETTINGS"
+}
+
+case "$1" in
+"save")
+  save;;
+"reset")
+  reset;;
+*)
+  echo 'invalid argument. Must be "save" or "reset".' >&2
+  exit 1
+  ;;
+esac
