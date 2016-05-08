@@ -1,0 +1,7 @@
+#!/bin/bash
+
+cd "$( basename "$0" )/.."
+
+./aa_data restore
+setup/set_hostname
+setup/install_crontab
