@@ -1,0 +1,21 @@
+#!/bin/bash
+
+cd "$(dirname "$0")/.."
+
+# only do this if this computer is marked for data resets
+[[ -z "$( aa_data get reset-data )" == "true" ]] || exit 1
+
+# make sure no one is using this computer right now
+osascript -e '
+tell app "System Events" to display dialog ¬
+  "App data and settings are about to be cleared. Continue?" ¬
+  buttons {"Continue", "Abort"} ¬
+  default button "Abort" ¬
+  with title "and a title" ¬
+  with icon stop ¬
+  giving up after 300 seconds
+' | grep 'Abort' && exit 1
+
+# reset the data
+cd app_management
+reset_chrome_data

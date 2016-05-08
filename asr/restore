@@ -12,8 +12,8 @@ SERVER_ADDR="$1"
 
 cd "$(dirname $0)"
 
-root="$(./get_volume.rb root)"
-restore="$(./get_volume.rb restore)"
+root="$(./get_volume root)"
+restore="$(./get_volume restore)"
 
 echo diskutil rename "$restore" "AAStudentRestoring" || fail 'could not rename restore volume'
 echo diskutil rename "$root" "AAStudentBackup" || fail 'could not rename root volume'
