@@ -10,7 +10,7 @@ class Settings
 
   RECOVERY_VOLUME = "Recovery HD".freeze
   RECOVERY_FILE = "/Volumes/#{RECOVERY_VOLUME}/.aa_data.yaml".freeze
-  LOCAL_FILE = "#{File.dirname(__FILE__)}/cache/aa_data.yaml".freeze
+  LOCAL_FILE = "#{File.dirname(__FILE__)}/cache/settings.yaml".freeze
 
   def self.method_missing(*args)
     self.instance.send(*args)
@@ -41,6 +41,8 @@ class Settings
   end
 
   def save_locally!
+    # settings saved this way will be overwritten the next time
+    # settings are saved or restored.
     File.open(LOCAL_FILE, 'w') { |f| f.write @data.to_yaml }
   end
 

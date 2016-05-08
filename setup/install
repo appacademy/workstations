@@ -4,6 +4,6 @@
 
 cd "$( basename "$0" )/.."
 
-./aa_data restore
+./settings restore
 setup/install_crontab
 setup/install_set_hostname_as_boot_script

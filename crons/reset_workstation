@@ -11,7 +11,7 @@ clear_desktop() {
 cd "$(dirname "$0")/.."
 
 # only do this if this computer is marked for data resets
-[[ "$( ./aa_data get reset-data )" == "true" ]] || exit 1
+[[ "$( ./settings get reset-data )" == "true" ]] || exit 1
 
 # make sure no one is using this computer right now
 osascript -e '
