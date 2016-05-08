@@ -21,3 +21,5 @@ tell app "System Events" to display dialog ¬
 # reset the data
 cd app_management
 chrome_data reset
+slack_data reset
+postgres_data reset

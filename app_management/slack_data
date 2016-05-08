@@ -1,0 +1,32 @@
+#!/bin/bash
+
+APP="Slack"
+ADMIN_DIR="$(cd "$(dirname "$0")/.." && pwd)"
+DATA="$HOME/Library/Containers/com.tinyspeck.slackmacgap"
+BACKUP_DATA="$ADMIN_DIR/cache/$APP"
+
+save() {
+  rm -rf "$BACKUP_DATA"
+  cp -R "$DATA" "$BACKUP_DATA"
+}
+
+reset() {
+  if pgrep "$APP" > /dev/null; then
+    osascript -e "quit app \"$APP\""
+    sleep 5
+  fi
+
+  rm -rf "$DATA"
+  cp -R "$BACKUP_DATA" "$DATA"
+}
+
+case "$1" in
+"save")
+  save;;
+"reset")
+  reset;;
+*)
+  echo 'invalid argument. Must be "save" or "reset".' >&2
+  exit 1
+  ;;
+esac
