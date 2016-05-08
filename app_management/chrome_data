@@ -1,6 +1,4 @@
 #!/bin/bash
-# m h d m dow
-#
 
 ADMIN_DIR="$(cd "$(dirname "$0")/.." && pwd)"
 CHROME_CACHES="$HOME/Library/Caches/Google/Chrome/Default"
