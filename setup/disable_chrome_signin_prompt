@@ -1,0 +1,12 @@
+#!/usr/bin/env node
+
+const PREFERENCES_PATH =
+  `${process.env['HOME']}/Library/Application\
+\ Support/Google/Chrome/Default/Preferences`;
+const fs = require('fs');
+
+var preferences = JSON.parse(fs.readFileSync(PREFERENCES_PATH));
+
+preferences.sync_promo.user_skipped = true;
+
+fs.writeFileSync(PREFERENCES_PATH, JSON.stringify(preferences));
