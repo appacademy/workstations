@@ -2,6 +2,12 @@
 # m h d m dow
 # 0 5 * * 1-5
 
+clear_desktop() {
+  OLD_PROJECTS_DIR="$HOME/Desktop/old_projects"
+  [[ -d "$OLD_PROJECTS_DIR" ]] || mkdir "$OLD_PROJECTS_DIR"
+  mv -f "$HOME/Desktop/"* $OLD_PROJECTS_DIR
+}
+
 cd "$(dirname "$0")/.."
 
 # only do this if this computer is marked for data resets
@@ -25,3 +31,5 @@ chrome_data reset
 slack_data reset
 iterm_data reset
 postgres_data reset
+
+clear_desktop
