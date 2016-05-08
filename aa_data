@@ -45,7 +45,7 @@ end
 
 case ARGV[0]
 when 'get'
-  puts read_data
+  puts get_data(ARGV[1])
 when 'set'
   with_recovery_mounted do
     set_data(ARGV.drop(1))

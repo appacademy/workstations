@@ -5,7 +5,7 @@
 cd "$(dirname "$0")/.."
 
 # only do this if this computer is marked for data resets
-[[ -z "$( aa_data get reset-data )" == "true" ]] || exit 1
+[[ "$( ./aa_data get reset-data )" == "true" ]] || exit 1
 
 # make sure no one is using this computer right now
 osascript -e '
@@ -20,6 +20,8 @@ tell app "System Events" to display dialog ¬
 
 # reset the data
 cd app_management
+
 chrome_data reset
 slack_data reset
+iterm_data reset
 postgres_data reset
