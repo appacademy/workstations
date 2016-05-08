@@ -1,59 +1,44 @@
 #!/usr/bin/env ruby
-require 'yaml'
 
-USER = "appacademy".freeze
-RECOVERY_VOLUME = "Recovery HD".freeze
-RECOVERY_FILE = "/Volumes/#{RECOVERY_VOLUME}/.aa_data.yaml".freeze
-LOCAL_FILE = "/Users/#{USER}/.aa_data.yaml".freeze
+require './settings'
 
-def with_recovery_mounted
-  `diskutil mount "#{RECOVERY_VOLUME}"`
-  yield
-ensure
-  `diskutil unmount "#{RECOVERY_VOLUME}"`
+def get(key)
+  puts Settings[key]
 end
 
-def get_data(key)
-  YAML.load_file(LOCAL_FILE)[key]
+def set(args)
+  Settings.between_restore_and_save! { apply_args(args) }
 end
 
-def set_data(args)
-  data = parse_args(args)
-  update_yaml(data)
-  restore_data
+def set_local(args)
+  apply_args(args)
+  Settings.save_locally!
 end
 
-def restore_data
-  `cp "#{RECOVERY_FILE}" "#{LOCAL_FILE}"`
-  `chown "#{USER}" #{LOCAL_FILE}`
-end
-
-def parse_args(args)
-  data = {}
+def apply_args(args)
   args.each do |arg|
     key, value = arg.split('=')
-    data[key] = value
+    if value.nil?
+      Settings.delete(key)
+    else
+      Settings[key] = value
+    end
   end
-  data
 end
 
-def update_yaml(new_data)
-  data = File.exist?(RECOVERY_FILE) ? YAML.load_file(RECOVERY_FILE) : {}
-  data.update(new_data)
-  File.open(RECOVERY_FILE, 'w') { |f| f.write data.to_yaml }
+def restore
+  Settings.restore!
 end
 
 case ARGV[0]
 when 'get'
-  puts get_data(ARGV[1])
+  get(ARGV[1])
 when 'set'
-  with_recovery_mounted do
-    set_data(ARGV.drop(1))
-  end
+  set(ARGV.drop(1))
+when 'set-local'
+  set_local(ARGV.drop(1))
 when 'restore'
-  with_recovery_mounted do
-    restore_data
-  end
+  restore
 else
-  raise 'Invalid argument. Must be "get", "set" or "restore".'
+  raise 'Invalid argument. Must be "get", "set", "set-local" or "restore".'
 end

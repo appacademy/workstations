@@ -1,14 +1,13 @@
 #!/usr/bin/env ruby
 # requires root privileges
 
-require 'yaml'
+require '../settings'
 
-DATA_FILE = "/Users/appacademy/.aa_data.yaml"
+Settings.restore! unless Settings.saved?
 
-data = YAML.load_file(DATA_FILE)
-id = data['id']
-pod = data['pod']
-station = data['station']
+id = Settings['id']
+pod = Settings['pod']
+station = Settings['station']
 
 computer_name = "AAStudent #{pod} #{station} (##{id})"
 host_name = "aa-#{pod.downcase.tr(' ', '-')}-#{station}-id#{id}"
