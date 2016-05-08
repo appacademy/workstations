@@ -1,0 +1,31 @@
+#!/bin/bash
+# m h d m dow
+#
+
+ADMIN_DIR="$(cd "$( "$(dirname "$0")/.." )" && pwd)"
+CHROME_CACHES="$HOME/Library/Caches/Google/Chrome/Default"
+CHROME_SETTINGS="$HOME/Library/Application Support/Google/Chrome"
+BACKUP_CHROME_SETTINGS="$ADMIN_DIR/cache/Chrome"
+
+# only do this if this computer is marked for data resets
+[[ -z "$("$ADMIN_DIR/aa_data" get reset-data)" ]] && exit 1
+
+# make sure no one is using this computer right now
+osascript -e '
+tell app "iTerm" to display dialog ¬
+  "Chrome settings are about to be cleared." ¬
+  buttons {"Continue", "Abort"} ¬
+  default button "Abort" ¬
+  with title "and a title" ¬
+  with icon stop ¬
+  giving up after 300 seconds
+' | grep 'Abort' && exit 1
+
+# kill chrome
+osascript -e 'quit app "Google Chrome"'
+sleep 5
+pkill 'Google Chrome'
+
+rm -rf "$CHROME_CACHES"/*
+rm -rf "$CHROME_SETTINGS"
+cp -R "$BACKUP_CHROME_SETTINGS" "$CHROME_SETTINGS"
