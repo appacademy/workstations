@@ -1,0 +1,11 @@
+#!/bin/bash
+# m h d m dow
+# 4 45 * * 1-5
+
+DOTFILES="$HOME/.dotfiles"
+APP_ACADEMY_CHROME_TAB="$HOME/app-academy-chrome-tab"
+WORKSTATION_ADMIN="$HOME/.workstation-admin"
+
+cd "$DOTFILES" && bin/update_dotfiles
+cd "$APP_ACADEMY_CHROME_TAB" && update-chrome-tab
+cd "$WORKSTATION_ADMIN" && setup/update

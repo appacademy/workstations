@@ -1,0 +1,8 @@
+#!/bin/bash
+
+cd "$( basename "$0" )/.."
+
+git fetch -q master
+git reset --hard master
+
+setup/install_crontab
