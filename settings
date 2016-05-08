@@ -1,6 +1,6 @@
 #!/usr/bin/env ruby
 
-require './settings'
+require_relative './settings'
 
 def get(key)
   puts Settings[key]
