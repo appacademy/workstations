@@ -6,7 +6,7 @@ DATA="$HOME/Library/Preferences/com.googlecode.iterm2.plist"
 BACKUP_DATA="$ADMIN_DIR/cache/$APP.plist"
 
 save() {
-  rm -rf "$BACKUP_DATA"
+  rm -f "$BACKUP_DATA"
   cp -R "$DATA" "$BACKUP_DATA"
 }
 
@@ -16,7 +16,7 @@ reset() {
     sleep 5
   fi
 
-  rm -rf "$DATA"
+  rm -f "$DATA"
   cp -R "$BACKUP_DATA" "$DATA"
 }
 

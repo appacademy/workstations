@@ -2,7 +2,7 @@
 
 cd "$(dirname "$0")/../app_management"
 
-chrome_data save
-slack_data save
-iterm_data save
-postgres_data save
+./chrome_data save
+./slack_data save
+./iterm_data save
+./postgres_data save
