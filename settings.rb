@@ -28,9 +28,18 @@ class Settings
     File.exist?(LOCAL_FILE)
   end
 
+  def persisted?
+    File.exist?(RECOVERY_FILE)
+  end
+
   def restore!
     with_recovery_mounted do
-      restore
+      if persisted?
+        restore
+      else
+        $stderr.puts "no data to restore"
+        save_locally!
+      end
     end
   end
 
