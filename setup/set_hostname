@@ -26,4 +26,4 @@ host_name = "aa-#{host_name.downcase.tr(' ', '-')}-id#{id}"
 
 `scutil --set ComputerName "#{computer_name}"`
 `scutil --set HostName "#{host_name}"`
-`scutil --set LocalHostName "#{host_name}.local"`
+`scutil --set LocalHostName "#{host_name}"`
