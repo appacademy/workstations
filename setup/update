@@ -2,7 +2,7 @@
 
 cd "$( dirname "$0" )/.."
 
-git fetch -q master
+git fetch -q origin master
 git reset --hard master
 
 setup/install_crontab
