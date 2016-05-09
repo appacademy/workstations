@@ -1,9 +1,14 @@
 #!/bin/bash
 
+fail() {
+  echo "$(basename $0) failed: $1" >&2
+  exit 1
+}
+
 [[ $USER == 'root' ]] || fail "must be run as root"
 
 cd "$( basename "$0" )/.."
 
-./settings restore
+./settings restore &>/dev/null
 setup/install_crontab
 setup/install_set_hostname_as_boot_script
