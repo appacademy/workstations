@@ -7,7 +7,7 @@ fail() {
 
 [[ $USER == 'root' ]] || fail "must be run as root"
 
-cd "$( basename "$0" )/.."
+cd "$( dirname "$0" )/.."
 
 ./settings restore &>/dev/null
 setup/install_crontab

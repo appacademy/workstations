@@ -1,6 +1,6 @@
 #!/bin/bash
 
-cd "$( basename "$0" )/.."
+cd "$( dirname "$0" )/.."
 
 git fetch -q master
 git reset --hard master
