@@ -15,21 +15,20 @@ cd "$(dirname "$0")/.."
 
 # make sure no one is using this computer right now
 osascript -e '
-tell app "System Events" to display dialog ¬
+tell application "System Events" to display dialog ¬
   "App data and settings are about to be cleared. Continue?" ¬
   buttons {"Continue", "Abort"} ¬
   default button "Abort" ¬
-  with title "and a title" ¬
-  with icon stop ¬
-  giving up after 300 seconds
+  with title "Workstation Reset" ¬
+  giving up after 300
 ' | grep 'Abort' && exit 1
 
 # reset the data
 cd app_management
 
-chrome_data reset
-slack_data reset
-iterm_data reset
-postgres_data reset
+./chrome_data reset
+./slack_data reset
+./iterm_data reset
+./postgres_data reset
 
 clear_desktop
