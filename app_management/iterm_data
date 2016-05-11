@@ -13,11 +13,13 @@ save() {
 reset() {
   if pgrep "$APP" > /dev/null; then
     osascript -e "quit app \"$APP\""
+    osascript -e "quit app \"Terminal\""
     sleep 5
   fi
 
   rm -f "$DATA"
   cp -R "$BACKUP_DATA" "$DATA"
+  >| "$HOME/.bash_history"
 }
 
 case "$1" in
