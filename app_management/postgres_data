@@ -1,6 +1,6 @@
 #!/bin/bash
 
-APP="Postgres95"
+APP="Postgres"
 ADMIN_DIR="$(cd "$(dirname "$0")/.." && pwd)"
 DATA="$HOME/Library/Application Support/Postgres/var-9.5"
 BACKUP_DATA="$ADMIN_DIR/cache/$APP"
