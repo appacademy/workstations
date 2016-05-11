@@ -2,10 +2,14 @@
 # m h d m dow
 # 0 5 * * 1-5
 
-clear_desktop() {
-  OLD_PROJECTS_DIR="$HOME/Desktop/old_projects"
-  [[ -d "$OLD_PROJECTS_DIR" ]] || mkdir "$OLD_PROJECTS_DIR"
-  mv -f "$HOME/Desktop/"* $OLD_PROJECTS_DIR
+empty() {
+  rm -rf "$HOME/$1/"*
+}
+
+backup_and_empty() {
+  OLD_DIR="$HOME/$1/old"
+  [[ -d "$OLD_DIR" ]] || mkdir "$OLD_DIR"
+  mv -f "$HOME/$1/"* $OLD_DIR
 }
 
 cd "$(dirname "$0")/.."
@@ -31,4 +35,7 @@ cd app_management
 ./iterm_data reset
 ./postgres_data reset
 
-clear_desktop
+empty ".Trash"
+empty "Downloads"
+backup_and_empty "Desktop"
+backup_and_empty "Documents"
