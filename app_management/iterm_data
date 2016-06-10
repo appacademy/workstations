@@ -12,8 +12,8 @@ save() {
 
 reset() {
   if pgrep "$APP" > /dev/null; then
-    osascript -e "quit app \"$APP\""
-    osascript -e "quit app \"Terminal\""
+    osascript -e "quit application \"$APP\""
+    osascript -e "quit application \"Terminal\""
     sleep 5
   fi
 

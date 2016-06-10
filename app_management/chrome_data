@@ -12,7 +12,7 @@ save() {
 
 reset() {
   if pgrep 'Google Chrome' > /dev/null; then
-    osascript -e 'quit app "Google Chrome"'
+    osascript -e 'quit application "Google Chrome"'
     sleep 5
     pkill 'Google Chrome'
   fi
