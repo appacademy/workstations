@@ -6,6 +6,8 @@ WORKSTATION_ADMIN="$HOME/.workstation-admin"
 
 update() {
   cd "$1"
+  git stash
+  git checkout master
   git fetch -q origin master
   git reset --hard origin/master
 }
@@ -14,5 +16,4 @@ update "$DOTFILES"
 update "$APP_ACADEMY_CHROME_TAB"
 update "$WORKSTATION_ADMIN"
 
-$DOTFILES/bin/install_dotfiles <(echo y)
-$WORKSTATION_ADMIN/setup/install_crontab
+./install_dotfiles

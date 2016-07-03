@@ -1,0 +1,11 @@
+#!/bin/bash
+# custom dotfiles install for appacademy machines
+
+cd "$HOME/.dotfiles"
+
+bin/install_requirements
+bin/install_dotfiles <(echo y)
+
+git config --global user.name "App Academy Student"
+git config --global user.email "student@appacademy.io"
+git config --global credential.helper "cache --timeout 0"
