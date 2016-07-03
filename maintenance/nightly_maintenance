@@ -3,4 +3,5 @@
 cd "($dirname "$0")"
 
 ./update_repos
+./install_dotfiles
 ./reset_workstation

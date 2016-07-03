@@ -15,5 +15,3 @@ update() {
 update "$DOTFILES"
 update "$APP_ACADEMY_CHROME_TAB"
 update "$WORKSTATION_ADMIN"
-
-./install_dotfiles

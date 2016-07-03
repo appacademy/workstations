@@ -26,12 +26,12 @@ tell application "System Events" to display dialog ¬
 ' | grep 'Abort' && exit 1
 
 # reset the data
-cd app_management
+cd maintenance/app_data
 
-./chrome_data reset
-./slack_data reset
-./iterm_data reset
-./postgres_data reset
+./chrome reset
+./slack reset
+./iterm reset
+./postgres reset
 
 empty ".Trash"
 empty "Downloads"
