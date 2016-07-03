@@ -1,3 +1,0 @@
-HOUR = 4
-MINUTE = 45
-WEEKDAYS = (1..5)

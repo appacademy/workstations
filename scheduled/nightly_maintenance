@@ -1,0 +1,6 @@
+#!/bin/bash
+
+cd "($dirname "$0")"
+
+./update_repos
+./reset_workstation

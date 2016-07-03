@@ -10,5 +10,6 @@ fail() {
 cd "$( dirname "$0" )/.."
 
 ./settings restore &>/dev/null
-setup/install_crontab
-setup/install_set_hostname_as_boot_script
+launchctl/setup_nightly_maintenance
+launchctl/install_set_hostname_as_boot_script
+ruby launchctl/nightly_maintenance_schedule

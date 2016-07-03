@@ -1,6 +1,4 @@
 #!/bin/bash
-# m h d m dow
-# 45 4 * * 1-5
 
 DOTFILES="$HOME/.dotfiles"
 APP_ACADEMY_CHROME_TAB="$HOME/app-academy-chrome-tab"

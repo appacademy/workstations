@@ -1,6 +1,4 @@
 #!/bin/bash
-# m h d m dow
-# 0 5 * * 1-5
 
 empty() {
   rm -rf "$HOME/$1/"*

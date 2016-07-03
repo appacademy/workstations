@@ -1,14 +1,10 @@
 #!/usr/bin/env ruby
 
-require_relative '../reset_schedule'
+require_relative './nightly_maintenance_schedule'
 
 DAEMON_NAME = "com.workstation.reset-workstation".freeze
 DAEMON_FILE = "Users/appacademy/Library/LaunchAgents/#{DAEMON_NAME}.plist".freeze
-SCRIPT = File.expand_path("../reset_workstation", __FILE__)
-
-HOUR = 4
-MINUTE = 45
-WEEKDAYS = (1..5)
+SCRIPT = File.expand_path("../../scheduled/nightly_maintenance", __FILE__)
 
 def schedule
   single_schedules = WEEKDAYS.map.with_index do |weekday|
