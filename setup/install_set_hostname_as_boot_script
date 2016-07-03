@@ -1,8 +1,8 @@
 #!/usr/bin/env ruby
 
-DAEMON_NAME = "com.workstation.set-hostname"
-DAEMON_FILE = "/Library/LaunchDaemons/#{DAEMON_NAME}.plist"
-SCRIPT = File.expand_path("#{File.dirname(__FILE__)}/set_hostname")
+DAEMON_NAME = "com.workstation.set-hostname".freeze
+DAEMON_FILE = "/Library/LaunchDaemons/#{DAEMON_NAME}.plist".freeze
+SCRIPT = File.expand_path("../set_hostname", __FILE__)
 
 plist = <<-XML
 <?xml version="1.0" encoding="UTF-8"?>
@@ -22,4 +22,7 @@ plist = <<-XML
 </plist>
 XML
 
-File.open(DAEMON_FILE, 'w') { |f| f.puts(plist) }
+File.write(DAEMON_FILE, plist)
+
+`launchctl unload #{DAEMON_FILE} 2> /dev/null`
+`launchctl load #{DAEMON_FILE}`

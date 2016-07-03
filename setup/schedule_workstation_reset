@@ -1,0 +1,57 @@
+#!/usr/bin/env ruby
+
+require_relative '../reset_schedule'
+
+DAEMON_NAME = "com.workstation.reset-workstation".freeze
+DAEMON_FILE = "Users/appacademy/Library/LaunchAgents/#{DAEMON_NAME}.plist".freeze
+SCRIPT = File.expand_path("../reset_workstation", __FILE__)
+
+HOUR = 4
+MINUTE = 45
+WEEKDAYS = (1..5)
+
+def schedule
+  single_schedules = WEEKDAYS.map.with_index do |weekday|
+    single_schedule(weekday)
+  end
+
+  <<-XML.chomp
+  <key>StartCalendarInterval</key>
+  <array>
+#{single_schedules.join("\n")}
+  </array>
+  XML
+end
+
+def single_schedule(weekday)
+  <<-XML.chomp
+    <dict>
+      <key>Hour</key>
+      <integer>#{HOUR}</integer>
+      <key>Minute</key>
+      <integer>#{MINUTE}</integer>
+      <key>Weekday</key>
+      <integer>#{weekday}</integer>
+    </dict>
+  XML
+end
+
+plist = <<-XML
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN"
+  "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+  <key>Label</key>
+  <string>#{DAEMON_NAME}</string>
+  <key>Program</key>
+  <string>#{SCRIPT}</string>
+#{schedule}
+</dict>
+</plist>
+XML
+
+File.write(DAEMON_FILE, plist)
+
+`launchctl unload #{DAEMON_FILE} 2> /dev/null`
+`launchctl load #{DAEMON_FILE}`
