@@ -2,7 +2,7 @@
 
 DAEMON_NAME = "com.workstation.set-hostname".freeze
 DAEMON_FILE = "/Library/LaunchDaemons/#{DAEMON_NAME}.plist".freeze
-SCRIPT = File.expand_path("../../scheduled/set_hostname", __FILE__)
+SCRIPT = File.expand_path("../../maintenance/set_hostname", __FILE__)
 
 plist = <<-XML
 <?xml version="1.0" encoding="UTF-8"?>

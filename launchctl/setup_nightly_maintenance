@@ -2,9 +2,9 @@
 
 require_relative './nightly_maintenance_schedule'
 
-DAEMON_NAME = "com.workstation.reset-workstation".freeze
-DAEMON_FILE = "Users/appacademy/Library/LaunchAgents/#{DAEMON_NAME}.plist".freeze
-SCRIPT = File.expand_path("../../scheduled/nightly_maintenance", __FILE__)
+DAEMON_NAME = "com.workstation.nightly-maintenance".freeze
+DAEMON_FILE = "/Users/appacademy/Library/LaunchAgents/#{DAEMON_NAME}.plist".freeze
+SCRIPT = File.expand_path("../../maintenance/nightly_maintenance", __FILE__)
 
 def schedule
   single_schedules = WEEKDAYS.map.with_index do |weekday|

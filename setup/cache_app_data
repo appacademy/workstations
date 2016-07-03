@@ -1,8 +1,8 @@
 #!/bin/bash
 
-cd "$(dirname "$0")/../app_management"
+cd "$(dirname "$0")/../maintenance/app_data"
 
-./chrome_data save
-./slack_data save
-./iterm_data save
-./postgres_data save
+./chrome save
+./slack save
+./iterm save
+./postgres save
