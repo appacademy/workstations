@@ -6,6 +6,15 @@ DOTFILES="$HOME/.dotfiles"
 APP_ACADEMY_CHROME_TAB="$HOME/app-academy-chrome-tab"
 WORKSTATION_ADMIN="$HOME/.workstation-admin"
 
-cd "$DOTFILES" && bin/update_dotfiles
-cd "$APP_ACADEMY_CHROME_TAB" && ./update-chrome-tab
-cd "$WORKSTATION_ADMIN" && setup/update
+update() {
+  cd "$1"
+  git fetch -q origin master
+  git reset --hard origin/master
+}
+
+update "$DOTFILES"
+update "$APP_ACADEMY_CHROME_TAB"
+update "$WORKSTATION_ADMIN"
+
+$DOTFILES/bin/install_dotfiles <(echo y)
+$WORKSTATION_ADMIN/setup/install_crontab
