@@ -2,6 +2,30 @@
 
 cd "$(dirname "$0")"
 
-./update_repos
-./install_dotfiles
-./reset_workstation
+# ensure computer doesn't go to sleep until script finishes
+pmset noidle &
+
+# turn display off
+pmset displaysleepnow
+
+# turn wifi off
+networksetup -setairport en0 off
+
+if ping -c 1 google.com > /dev/null; then
+  # network is connected
+  ./update_repos
+  ./install_dotfiles
+  ./reset_workstation
+else
+  # network is not connected
+  ./reset_workstation
+
+  osascript -e '
+  tell application "System Events" to display dialog ¬
+    "The network is disconnected. Please reconnect the cable." ¬
+    buttons {"OK"} ¬
+    default button "OK" ¬
+    with title "Network Disconnected"'
+
+  exit 1
+fi
