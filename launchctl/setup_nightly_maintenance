@@ -43,6 +43,8 @@ plist = <<-XML
   <key>Program</key>
   <string>#{SCRIPT}</string>
 #{schedule}
+  <key>UserName</key>
+  <string>appacademy</string>
 </dict>
 </plist>
 XML

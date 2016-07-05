@@ -9,7 +9,7 @@ pmset noidle &
 pmset displaysleepnow
 
 # turn wifi off
-networksetup -setairport en0 off
+networksetup -setairportpower en0 off
 
 if ping -c 1 google.com > /dev/null; then
   # network is connected
