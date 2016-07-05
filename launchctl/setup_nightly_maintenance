@@ -7,7 +7,7 @@ DAEMON_FILE = "/Users/appacademy/Library/LaunchAgents/#{DAEMON_NAME}.plist".free
 SCRIPT = File.expand_path("../../maintenance/nightly_maintenance", __FILE__)
 
 def schedule
-  single_schedules = WEEKDAYS.map.with_index do |weekday|
+  single_schedules = MaintenanceSchedule::WEEKDAYS.map do |weekday|
     single_schedule(weekday)
   end
 
@@ -23,9 +23,9 @@ def single_schedule(weekday)
   <<-XML.chomp
     <dict>
       <key>Hour</key>
-      <integer>#{HOUR}</integer>
+      <integer>#{MaintenanceSchedule::HOUR}</integer>
       <key>Minute</key>
-      <integer>#{MINUTE}</integer>
+      <integer>#{MaintenanceSchedule::MINUTE}</integer>
       <key>Weekday</key>
       <integer>#{weekday}</integer>
     </dict>
@@ -53,3 +53,5 @@ File.write(DAEMON_FILE, plist)
 
 `launchctl unload #{DAEMON_FILE} 2> /dev/null`
 `launchctl load #{DAEMON_FILE}`
+
+MaintenanceSchedule.set_wake_times

@@ -1,7 +1,13 @@
-HOUR = 4
-MINUTE = 45
-WEEKDAYS = (1..5)
+module MaintenanceSchedule
+  HOUR = 4
+  MINUTE = 45
+  WEEKDAYS = (1..5)
 
-# Schedule machines to wake up for maintenance. This is here so that all
-# the schedule configuration is in the same file
-`pmset repeat wakeorpoweron MTWRF 4:45:00` if __FILE__ == $PROGRAM_NAME
+  def self.set_wake_times
+    `pmset repeat wakeorpoweron MTWRF #{_zpad(HOUR)}:#{_zpad(MINUTE)}:00`
+  end
+
+  def self._zpad(int)
+    '%.02i' % int
+  end
+end

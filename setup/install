@@ -12,4 +12,3 @@ cd "$( dirname "$0" )/.."
 ./settings restore &>/dev/null
 launchctl/setup_nightly_maintenance
 launchctl/install_set_hostname_as_boot_script
-ruby launchctl/nightly_maintenance_schedule
