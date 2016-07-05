@@ -1,6 +1,6 @@
 #!/bin/bash
 
-ADMIN_DIR="$(cd "$(dirname "$0")/.." && pwd)"
+ADMIN_DIR="$(cd "$(dirname "$0")/../.." && pwd)"
 CHROME_CACHES="$HOME/Library/Caches/Google/Chrome/Default"
 CHROME_SETTINGS="$HOME/Library/Application Support/Google/Chrome"
 BACKUP_CHROME_SETTINGS="$ADMIN_DIR/cache/Chrome"

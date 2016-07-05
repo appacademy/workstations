@@ -1,7 +1,7 @@
 #!/bin/bash
 
 APP="iTerm"
-ADMIN_DIR="$(cd "$(dirname "$0")/.." && pwd)"
+ADMIN_DIR="$(cd "$(dirname "$0")/../.." && pwd)"
 DATA="$HOME/Library/Preferences/com.googlecode.iterm2.plist"
 BACKUP_DATA="$ADMIN_DIR/cache/$APP.plist"
 
