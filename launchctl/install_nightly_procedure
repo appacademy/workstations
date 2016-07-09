@@ -1,17 +1,28 @@
 #!/usr/bin/env ruby
 
 require 'plist'
-require_relative './nightly_maintenance_schedule'
 
-DAEMON_NAME = "com.workstation.nightly-maintenance".freeze
+DAEMON_NAME = "com.workstation.nightly-procedure".freeze
 DAEMON_FILE = "/Users/appacademy/Library/LaunchAgents/#{DAEMON_NAME}.plist".freeze
-SCRIPT = File.expand_path("../../maintenance/nightly_maintenance", __FILE__)
+SCRIPT = File.expand_path("../nightly_procedure", __FILE__)
+
+HOUR = 4
+MINUTE = 45
+WEEKDAYS = (1..5)
+
+def set_wake_times
+  `pmset repeat wakeorpoweron MTWRF #{_zpad(HOUR)}:#{_zpad(MINUTE)}:00`
+end
+
+def _zpad(int)
+  '%.02i' % int
+end
 
 def schedule
-  MaintenanceSchedule::WEEKDAYS.map do |weekday|
+  WEEKDAYS.map do |weekday|
     {
-      Hour: MaintenanceSchedule::HOUR,
-      Minute: MaintenanceSchedule::MINUTE,
+      Hour: HOUR,
+      Minute: MINUTE,
       Weekday: weekday
     }
   end
@@ -29,4 +40,4 @@ File.write(DAEMON_FILE, plist)
 `launchctl unload #{DAEMON_FILE} 2> /dev/null`
 `launchctl load #{DAEMON_FILE}`
 
-MaintenanceSchedule.set_wake_times
+set_wake_times
