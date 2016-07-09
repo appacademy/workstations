@@ -1,6 +1,6 @@
 #!/bin/bash
 
-cd "$(dirname "$0")"
+cd "$(dirname "$0")/.."
 
 # ensure computer doesn't go to sleep until script finishes
 pmset noidle &
