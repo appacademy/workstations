@@ -1,0 +1,20 @@
+#!/usr/bin/env ruby
+
+require_relative '../lib/diskutil'
+
+def find_volume(type)
+  volume = DiskutilVolumes.instance.send(type)
+  raise "Unable to find volume of type '#{type}'" unless volume
+  volume
+end
+
+if __FILE__ == $PROGRAM_NAME
+  command = ARGV[0]
+  type = ARGV[1]
+  case command
+  when 'rename'
+    find_volume(type).name = ARGV[2]
+  else
+    puts find_volume(type).send(command)
+  end
+end

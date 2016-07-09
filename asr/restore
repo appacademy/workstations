@@ -12,18 +12,19 @@ SERVER_ADDR="$1"
 
 cd "$(dirname $0)"
 
-root="$(./get_volume root)"
-restore="$(./get_volume restore)"
-
 # ensure WiFi is off
-networksetup -setairportpower en0 off
+networksetup -setairportpower en1 off
 
-diskutil rename "$restore" "AAStudentRestoring" || fail 'could not rename restore volume'
+# prepare partition to be restored
+./asrdiskutil mount backup || fail 'could not mount backup volume'
+./asrdiskutil rename backup "AAStudentRestoring" || fail 'could not rename backup volume'
 
+# begin restoration
 asr restore --source "asr://$SERVER_ADDR" \
-            --target "$restore" --erase --noprompt \
+            --target "$(./asrdiskutil backup id)" --erase --noprompt \
             || fail 'restore process failed'
 
-diskutil rename "$root" "AAStudentBackup" || fail 'could not rename root volume'
-diskutil rename "$restore" "AAStudent" || fail 'could not rename restored volume'
+# rename partitions
+./asrdiskutil rename root "AAStudentBackup" || fail 'could not rename root volume'
+./asrdiskutil rename backup "AAStudent" || fail 'could not rename restored volume'
 echo "Restore completed."

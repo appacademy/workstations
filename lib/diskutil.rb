@@ -1,11 +1,14 @@
-#!/usr/bin/env ruby
 require 'plist'
 require 'singleton'
 
-class DiskutilVolumes
+class Diskutil
   include Singleton
 
   attr_reader :volumes
+
+  def self.method_missing(*args)
+    self.instance.send(*args)
+  end
 
   def initialize
     @volumes = []
@@ -97,22 +100,5 @@ class Volume
 
     `diskutil rename "#{id}" "#{name}"`
     @name = name
-  end
-end
-
-def find_volume(type)
-  volume = DiskutilVolumes.instance.send(type)
-  raise "Unable to find volume of type '#{type}'" unless volume
-  volume
-end
-
-if __FILE__ == $PROGRAM_NAME
-  type = ARGV[0]
-  command = ARGV[1]
-  case command
-  when 'rename'
-    find_volume(type).name = ARGV[2]
-  else
-    puts find_volume(type).send(command)
   end
 end

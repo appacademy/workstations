@@ -1,7 +1,7 @@
 #!/usr/bin/env ruby
 # requires root privileges
 
-require_relative '../settings'
+require_relative '../lib/settings'
 
 Settings.restore! unless Settings.saved?
 

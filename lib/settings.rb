@@ -4,13 +4,22 @@
 
 require 'yaml'
 require 'singleton'
+require_relative 'diskutil'
 
 class Settings
   include Singleton
 
-  RECOVERY_VOLUME = "Recovery HD".freeze
-  RECOVERY_FILE = "/Volumes/#{RECOVERY_VOLUME}/.aa_data.yaml".freeze
-  LOCAL_FILE = "#{File.dirname(__FILE__)}/cache/settings.yaml".freeze
+  LOCAL_FILE = File.expand_path("../../cache/settings.yaml", __FILE__)
+
+  def recovery_volume
+    Diskutil.recovery
+  end
+
+  def recovery_file
+    return nil unless recovery_volume.mounted?
+
+    File.join(recovery_volume.mount_point, ".aa_data.yaml")
+  end
 
   def self.method_missing(*args)
     self.instance.send(*args)
@@ -29,7 +38,7 @@ class Settings
   end
 
   def persisted?
-    File.exist?(RECOVERY_FILE)
+    File.exist?(recovery_file)
   end
 
   def restore!
@@ -52,7 +61,7 @@ class Settings
   def save_locally!
     # settings saved this way will be overwritten the next time
     # settings are saved or restored.
-    File.open(LOCAL_FILE, 'w') { |f| f.write @data.to_yaml }
+    File.write(LOCAL_FILE, @data.to_yaml)
   end
 
   def between_restore_and_save!
@@ -70,19 +79,19 @@ class Settings
   end
 
   def restore
-    `cp "#{RECOVERY_FILE}" "#{LOCAL_FILE}"`
+    `cp "#{recovery_file}" "#{LOCAL_FILE}"`
     @data = YAML.load_file(LOCAL_FILE)
   end
 
   def save
-    File.open(RECOVERY_FILE, 'w') { |f| f.write @data.to_yaml }
-    `cp "#{RECOVERY_FILE}" "#{LOCAL_FILE}"`
+    File.write(recovery_file, @data.to_yaml)
+    `cp "#{recovery_file}" "#{LOCAL_FILE}"`
   end
 
   def with_recovery_mounted
-    `diskutil mount "#{RECOVERY_VOLUME}"`
+    recovery_volume.mount
     yield
   ensure
-    `diskutil unmount "#{RECOVERY_VOLUME}"`
+    recovery_volume.unmount
   end
 end
