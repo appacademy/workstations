@@ -1,26 +1,16 @@
 #!/usr/bin/env ruby
+require 'plist'
 
 DAEMON_NAME = "com.workstation.set-hostname".freeze
 DAEMON_FILE = "/Library/LaunchDaemons/#{DAEMON_NAME}.plist".freeze
 SCRIPT = File.expand_path("../../maintenance/set_hostname", __FILE__)
 
-plist = <<-XML
-<?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN"
-  "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
-<plist version="1.0">
-<dict>
-  <key>Label</key>
-  <string>#{DAEMON_NAME}</string>
-  <key>Program</key>
-  <string>#{SCRIPT}</string>
-  <key>RunAtLoad</key>
-  <true/>
-  <key>UserName</key>
-  <string>root</string>
-</dict>
-</plist>
-XML
+plist = {
+  Label: DAEMON_NAME,
+  Program: SCRIPT,
+  RunAtLoad: true,
+  UserName: 'root'
+}.to_plist
 
 File.write(DAEMON_FILE, plist)
 
