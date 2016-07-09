@@ -1,20 +1,118 @@
 #!/usr/bin/env ruby
+require 'plist'
+require 'singleton'
 
-def asr_devices
-  devices = {}
+class DiskutilVolumes
+  include Singleton
 
-  `mount`.lines.each do |line|
-    match = line.match(%r{(?<device>/dev/disk\w+) on (?<mount_point>\S+)})
-    next unless match
+  attr_reader :volumes
 
-    if match['mount_point'] == '/'
-      devices['root'] = match['device']
-    else
-      devices['restore'] = match['device']
+  def initialize
+    @volumes = []
+
+    plist = Plist.parse_xml(`diskutil list -plist`)
+    plist["AllDisksAndPartitions"].each do |device|
+      add_disk_or_volume(device)
     end
   end
 
-  devices
+  def root
+    @volumes.find(&:root?)
+  end
+
+  def backup
+    @volumes.find(&:backup?)
+  end
+
+  def recovery
+    @volumes.find(&:recovery?)
+  end
+
+  alias restore backup
+
+  private
+
+  def add_disk_or_volume(device)
+    if device["Partitions"]
+      device["Partitions"].each { |volume| add_volume(volume) }
+    else
+      add_volume(device)
+    end
+  end
+
+  def add_volume(plist)
+    @volumes << Volume.new(plist)
+  end
+
 end
 
-puts asr_devices[ARGV[0]] if __FILE__ == $PROGRAM_NAME
+class Volume
+  attr_reader :id, :name, :uuid, :filesystem, :mount_point
+
+  def initialize(plist)
+    @id = plist['DeviceIdentifier']
+    @name = plist['VolumeName']
+    @filesystem = plist['Content']
+    @mount_point = plist['MountPoint']
+  end
+
+  def root?
+    @mount_point == '/'
+  end
+
+  def backup?
+    !root? && @filesystem == 'Apple_HFS'
+  end
+
+  def recovery?
+    @filesystem == 'Apple_Boot'
+  end
+
+  def mounted?
+    !@mount_point.nil?
+  end
+
+  def mount
+    return @mount_point if mounted?
+
+    `diskutil mount "#{@id}"`
+    @mount_point = "/Volumes/#{@name}"
+  end
+
+  def unmount
+    return unless mounted?
+
+    `diskutil unmount "#{@id}"`
+    @mount_point = nil
+  end
+
+  def erase
+    raise "can only erase backup drive" unless backup?
+    unmount
+    `diskutil eraseVolume "#{@id}"`
+  end
+
+  def name=(name)
+    return if @name == name
+
+    `diskutil rename "#{id}" "#{name}"`
+    @name = name
+  end
+end
+
+def find_volume(type)
+  volume = DiskutilVolumes.instance.send(type)
+  raise "Unable to find volume of type '#{type}'" unless volume
+  volume
+end
+
+if __FILE__ == $PROGRAM_NAME
+  type = ARGV[0]
+  command = ARGV[1]
+  case command
+  when 'rename'
+    find_volume(type).name = ARGV[2]
+  else
+    puts find_volume(type).send(command)
+  end
+end
