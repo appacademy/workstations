@@ -15,10 +15,12 @@ cd "$(dirname $0)"
 root="$(./get_volume root)"
 restore="$(./get_volume restore)"
 
-echo diskutil rename "$restore" "AAStudentRestoring" || fail 'could not rename restore volume'
-echo diskutil rename "$root" "AAStudentBackup" || fail 'could not rename root volume'
+diskutil rename "$restore" "AAStudentRestoring" || fail 'could not rename restore volume'
+diskutil rename "$root" "AAStudentBackup" || fail 'could not rename root volume'
 
 asr restore --source "asr://$SERVER_ADDR" \
             --target "$restore" --erase --noprompt \
-  && diskutil rename "$restore" "AAStudent" \
-  && echo "Restore completed."
+            || fail 'restore process failed'
+
+diskutil rename "$restore" "AAStudent" || fail 'could not rename restored volume'
+echo "Restore completed."
