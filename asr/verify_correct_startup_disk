@@ -1,0 +1,14 @@
+#!/bin/bash
+
+cd "$(dirname "$0")"
+
+boot_volume="$(bless -getBoot)"
+restored_volume="$(./get_volume restore)"
+
+if [[ "$boot_volume" = "$restored_volume" ]]; then
+  echo "booting correct volume '$boot_volume'"
+  exit 0
+else
+  echo "booting '$boot_volume', but should be booting '$restored_volume'"
+  exit 1
+fi
