@@ -9,7 +9,7 @@ fail() {
 
 cd "$( dirname "$0" )/.."
 
-./settings restore &>/dev/null
+/settings restore &>/dev/null
 setup/enable_accessibility
-launchctl/setup_nightly_maintenance
-launchctl/install_set_hostname_as_boot_script
+sudo -u 'appacademy' setup/disable_chrome_signin_prompt
+launchctl/install
