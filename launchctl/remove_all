@@ -1,0 +1,6 @@
+#!/usr/bin/env ruby
+require_relative '../lib/launchctl'
+
+UserLaunchAgent.remove_all
+LaunchAgent.remove_all
+LaunchDaemon.remove_all

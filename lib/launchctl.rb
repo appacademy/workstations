@@ -7,11 +7,14 @@ class LaunchctlConfig
 
   def self.remove_all
     Dir.foreach(self::CONFIG_DIR) do |file|
-      if File.basename(file)[0...16] == 'com.workstation.'
-        `launchctl unload #{file} 2> /dev/null`
-        File.delete(file)
-      end
+      name = name_from_file(file)
+      new(name).uninstall if name
     end
+  end
+
+  def self.name_from_file(filename)
+    match = /com\.workstation\.(.+)\.plist/.match(filename)
+    match && match[1]
   end
 
   def initialize(name)
@@ -35,11 +38,20 @@ class LaunchctlConfig
     @config.update(config)
   end
 
+  def load_config
+    @config = Plist.parse_xml(config_path)
+  end
+
   def install
     File.write(config_path, to_plist)
 
     `launchctl unload #{config_path} 2> /dev/null`
     `launchctl load #{config_path}`
+  end
+
+  def uninstall
+    `launchctl unload #{config_path} 2> /dev/null`
+    File.delete(config_path)
   end
 
   def label
@@ -53,16 +65,15 @@ class LaunchctlConfig
   end
 end
 
-class LaunchDaemon < LaunchDConfig
+class LaunchDaemon < LaunchctlConfig
   CONFIG_DIR = '/Library/LaunchDaemons'.freeze
 end
 
-class RootLaunchAgent < LaunchDConfig
+class LaunchAgent < LaunchctlConfig
   CONFIG_DIR = '/Library/LaunchAgents'.freeze
 end
 
-_home = ENV['USER'] == 'root' ? '/Users/appacademy' : ENV['HOME']
-
-class UserLaunchAgent < LaunchDConfig
-  CONFIG_DIR = File.join(_home, 'Library/LaunchAgents').freeze
+class UserLaunchAgent < LaunchctlConfig
+  home = ENV['USER'] == 'root' ? '/Users/appacademy' : ENV['HOME']
+  CONFIG_DIR = File.join(home, 'Library/LaunchAgents').freeze
 end

@@ -13,14 +13,14 @@ def _zpad(int)
   '%.02i' % int
 end
 
-daemon = UserLaunchAgent.new('nightly-procedure')
-daemon.configure(
+agent = UserLaunchAgent.new('nightly-procedure')
+agent.configure(
   Program: File.expand_path("../nightly_procedure", __FILE__),
-  UserName: 'appacademy'
+  UserName: ENV['USER'] == 'root' ? 'appacademy' : ENV['USER']
 )
-daemon[:StartCalendarInterval] = WEEKDAYS.map do |weekday|
+agent[:StartCalendarInterval] = WEEKDAYS.map do |weekday|
   { Hour: HOUR, Minute: MINUTE, Weekday: weekday }
 end
 
-daemon.install
+agent.install
 set_wake_times
