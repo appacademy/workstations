@@ -59,36 +59,44 @@ You should only need to do this when creating a new disk image. You
 spec][workstation-image-spec] or `workstation-admin` will cache an old
 version of the settings and overwrite your changes in the first night.
 
-### Hack Chrome.
+### Install workstation-admin.
 
-One final setting must be attended to before we cache.
-
-Chrome will always prompt the user to signin on startup. We don't want
-this. We want it to just display a new tab. Unfortunately, there's
-no configuration for this, but you can hack it.
-
-Make sure you quit (⌘Q) Chrome before running this script.
+This will install and configure the workstation, running the dotfiles
+scripts, augmenting them, and adding hooks for maintenance scripts to
+run.
 
 ```
-setup/disable_chrome_signin_prompt
+setup/install
 ```
 
-### Clear Browsing data.
+### Clear app data.
 
-Chrome: Clear all browsing data from "the beginning of time".
+#### Atom
+
+1. Remove the `~/.atom` directory.
+2. Create it again with `mkdir`.
+3. Run `maintenance/install_dotfiles`.
+4. Open Atom.
+5. Quit (⌘Q)
+
+#### Chrome
+
+1. Clear all browsing data from "the beginning of time".
+2. Quit (⌘Q)
+3. Run `setup/disable_chrome_signin_prompt`
+
+#### iTerm
+
+Quit (⌘Q)
+
+#### Slack
+
+Quit (⌘Q)
 
 ### Cache the settings.
 
 ```
 setup/cache_app_data
-```
-
-### Install the hooks.
-
-This will install all the necessary hooks for the admin scripts to run.
-
-```
-setup/install
 ```
 
 [workstation-image-spec]: https://github.com/appacademy/instructors/blob/master/pre-cycle/workstation-image-spec.md

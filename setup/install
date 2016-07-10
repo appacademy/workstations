@@ -9,7 +9,12 @@ fail() {
 
 cd "$( dirname "$0" )/.."
 
-/settings restore &>/dev/null
+setup/clone_repos
+maintenance/update_repos
+maintentance/install_requirements
+maintentance/install_dotfiles
+
+./settings restore &>/dev/null
+maintenance/set_hostname
 setup/enable_accessibility
-sudo -u 'appacademy' setup/disable_chrome_signin_prompt
 launchctl/install
