@@ -3,7 +3,7 @@
 cd "$(dirname "$0")"
 
 boot_volume="$(bless -getBoot)"
-restored_volume="$(./asrdiskutil id restore)"
+restored_volume="$(./asrdiskutil id backup)"
 
 if [[ "$boot_volume" = "$restored_volume" ]]; then
   echo "booting correct volume '$boot_volume'"
