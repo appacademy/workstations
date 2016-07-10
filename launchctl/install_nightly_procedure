@@ -1,10 +1,5 @@
 #!/usr/bin/env ruby
-
-require 'plist'
-
-DAEMON_NAME = "com.workstation.nightly-procedure".freeze
-DAEMON_FILE = "/Users/appacademy/Library/LaunchAgents/#{DAEMON_NAME}.plist".freeze
-SCRIPT = File.expand_path("../nightly_procedure", __FILE__)
+require_relative '../lib/launchctl'
 
 HOUR = 4
 MINUTE = 45
@@ -18,26 +13,14 @@ def _zpad(int)
   '%.02i' % int
 end
 
-def schedule
-  WEEKDAYS.map do |weekday|
-    {
-      Hour: HOUR,
-      Minute: MINUTE,
-      Weekday: weekday
-    }
-  end
+daemon = UserLaunchAgent.new('nightly-procedure')
+daemon.configure(
+  Program: File.expand_path("../nightly_procedure", __FILE__),
+  UserName: 'appacademy'
+)
+daemon[:StartCalendarInterval] = WEEKDAYS.map do |weekday|
+  { Hour: HOUR, Minute: MINUTE, Weekday: weekday }
 end
 
-plist = {
-  Label: DAEMON_NAME,
-  Program: SCRIPT,
-  StartCalendarInterval: schedule,
-  UserName: 'appacademy'
-}.to_plist
-
-File.write(DAEMON_FILE, plist)
-
-`launchctl unload #{DAEMON_FILE} 2> /dev/null`
-`launchctl load #{DAEMON_FILE}`
-
+daemon.install
 set_wake_times

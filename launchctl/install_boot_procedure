@@ -1,18 +1,9 @@
 #!/usr/bin/env ruby
-require 'plist'
+require_relative '../lib/launchctl'
 
-DAEMON_NAME = "com.workstation.boot-procedure".freeze
-DAEMON_FILE = "/Library/LaunchDaemons/#{DAEMON_NAME}.plist".freeze
-SCRIPT = File.expand_path("../boot_procedure", __FILE__)
-
-plist = {
-  Label: DAEMON_NAME,
-  Program: SCRIPT,
-  RunAtLoad: true,
+daemon = LaunchDaemon.new('boot-procedure')
+daemon.configure(
+  Program: File.expand_path("../boot_procedure", __FILE__),
   UserName: 'root'
-}.to_plist
-
-File.write(DAEMON_FILE, plist)
-
-`launchctl unload #{DAEMON_FILE} 2> /dev/null`
-`launchctl load #{DAEMON_FILE}`
+)
+daemon.install
