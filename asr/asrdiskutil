@@ -3,7 +3,7 @@
 require_relative '../lib/diskutil'
 
 def find_volume(type)
-  volume = DiskutilVolumes.instance.send(type)
+  volume = Diskutil.instance.send(type)
   raise "Unable to find volume of type '#{type}'" unless volume
   volume
 end
