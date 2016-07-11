@@ -1,0 +1,8 @@
+#!/bin/bash
+
+source /Users/appacademy/.bashrc
+
+sudo -u appacademy gem install plist
+
+rbenv shell system
+gem install plist

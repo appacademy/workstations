@@ -9,10 +9,11 @@ fail() {
 
 cd "$( dirname "$0" )/.."
 
-setup/clone_repos
-maintenance/update_repos
-maintentance/install_requirements
-maintentance/install_dotfiles
+sudo -u appacademy setup/clone_repos
+sudo -u appacademy maintenance/update_repos
+setup/install_dependencies
+sudo -u appacademy maintenance/install_requirements
+sudo -u appacademy maintenance/install_dotfiles
 
 ./settings restore &>/dev/null
 maintenance/set_hostname

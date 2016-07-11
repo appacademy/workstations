@@ -4,5 +4,3 @@
 cd "$HOME/.dotfiles"
 
 . bin/install_requirements <(echo '')
-
-gem install plist

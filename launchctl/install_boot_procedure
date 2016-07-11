@@ -6,4 +6,4 @@ daemon.configure(
   Program: File.expand_path("../boot_procedure", __FILE__),
   UserName: 'root'
 )
-puts daemon.to_plist
+daemon.install
