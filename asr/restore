@@ -21,7 +21,8 @@ networksetup -setairportpower en1 off
 
 # begin restoration
 asr restore --source "asr://$SERVER_ADDR" \
-            --target "$(./asrdiskutil id backup)" --erase --noprompt \
+            --target "/dev/$(./asrdiskutil id backup)" \
+            --erase --noprompt \
             || fail 'restore process failed'
 
 # rename partitions
