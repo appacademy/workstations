@@ -1,8 +1,0 @@
-#!/usr/bin/env ruby
-
-require_relative '../lib/diskutil'
-
-File.write(
-  File.join(Diskutil.backup.mount_point, 'etc/fstab'),
-  "UUID=#{Diskutil.root.uuid} none hfs rw,noauto"
-)

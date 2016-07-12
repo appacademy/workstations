@@ -1,0 +1,13 @@
+#!/usr/bin/env ruby
+# whichever volume is specified as the mountable (argv 0) will be
+# prevented from auto-mounting on the volume specified as root (argv 1)
+
+require_relative '../lib/diskutil'
+
+mountable_volume = Diskutil.instance.send(ARGV[0])
+root_volume = Diskutil.instance.send(ARGV[1])
+
+File.write(
+  File.join(root_volume.mount_point, 'etc/fstab'),
+  "UUID=#{mountable_volume.uuid} none hfs rw,noauto"
+)
