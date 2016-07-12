@@ -37,3 +37,5 @@ empty ".Trash"
 empty "Downloads"
 backup_and_empty "Desktop"
 backup_and_empty "Documents"
+
+>| "$HOME/.bash_history"
