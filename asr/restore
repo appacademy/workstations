@@ -28,4 +28,5 @@ asr restore --source "asr://$SERVER_ADDR" \
 # rename partitions
 ./asrdiskutil rename root "AAStudentBackup" || fail 'could not rename root volume'
 ./asrdiskutil rename backup "AAStudent" || fail 'could not rename restored volume'
+./create_fstab_on_restored_disk
 echo "Restore completed."

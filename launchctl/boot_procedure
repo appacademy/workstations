@@ -3,4 +3,3 @@
 cd "$(dirname "$0")/.."
 
 maintenance/set_hostname
-asr/asrdiskutil unmount backup
