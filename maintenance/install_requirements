@@ -3,4 +3,4 @@
 
 cd "$HOME/.dotfiles"
 
-. bin/install_requirements <(echo '')
+bin/install_requirements
