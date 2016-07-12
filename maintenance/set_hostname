@@ -3,7 +3,7 @@
 
 require_relative '../lib/settings'
 
-Settings.restore! unless Settings.saved?
+Settings.restore! unless Settings.local_data?
 
 id = Settings['id']
 pod = Settings['pod']

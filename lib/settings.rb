@@ -33,6 +33,10 @@ class Settings
     @data.send(*args)
   end
 
+  def local_data?
+    saved? && !@data.empty?
+  end
+
   def saved?
     File.exist?(LOCAL_FILE)
   end
