@@ -50,13 +50,18 @@ class Diskutil
 end
 
 class Volume
-  attr_reader :id, :name, :uuid, :filesystem, :mount_point
+  attr_reader :id, :name, :type, :mount_point
 
   def initialize(plist)
-    @id = plist['DeviceIdentifier']
-    @name = plist['VolumeName']
-    @filesystem = plist['Content']
-    @mount_point = plist['MountPoint']
+    state_from_plist(plist)
+  end
+
+  def uuid
+    if @uuid.nil?
+      state_from_plist(Plist.parse_xml(`diskutil info -plist #{@id}`))
+    end
+
+    @uuid
   end
 
   def root?
@@ -64,11 +69,11 @@ class Volume
   end
 
   def backup?
-    !root? && @filesystem == 'Apple_HFS'
+    !root? && @type == 'Apple_HFS'
   end
 
   def recovery?
-    @filesystem == 'Apple_Boot'
+    @type == 'Apple_Boot'
   end
 
   def mounted?
@@ -100,5 +105,15 @@ class Volume
 
     `diskutil rename "#{id}" "#{name}"`
     @name = name
+  end
+
+  private
+
+  def state_from_plist(plist)
+    @id = plist['DeviceIdentifier']
+    @name = plist['VolumeName']
+    @type = plist['Content']
+    @mount_point = plist['MountPoint']
+    @uuid = plist['VolumeUUID']
   end
 end
