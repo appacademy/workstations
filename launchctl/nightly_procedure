@@ -9,9 +9,9 @@ pmset noidle &
 pmset displaysleepnow
 
 # turn wifi off
-networksetup -setairportpower en0 off
+networksetup -setairportpower en1 off
 
-if ping -c 1 google.com > /dev/null; then
+if ifconfig en0 | grep inet > /dev/null; then
   # network is connected
   maintenance/update_repos
   maintenance/install_dotfiles
