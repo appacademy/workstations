@@ -13,12 +13,12 @@ networksetup -setairportpower en0 off
 
 if ping -c 1 google.com > /dev/null; then
   # network is connected
-  maintenac/update_repos
-  maintenac/install_dotfiles
-  maintenac/reset_workstation
+  maintenance/update_repos
+  maintenance/install_dotfiles
+  maintenance/reset_workstation
 else
   # network is not connected
-  maintenac/reset_workstation
+  maintenance/reset_workstation
 
   osascript -e '
   tell application "System Events" to display dialog ¬
