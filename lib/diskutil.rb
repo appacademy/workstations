@@ -20,15 +20,15 @@ class Diskutil
   end
 
   def root
-    @volumes.find(&:root?)
+    @volumes.find(&:root?) || raise('root partition not found')
   end
 
   def backup
-    @volumes.find(&:backup?)
+    @volumes.find(&:backup?) || raise('backup partition not found')
   end
 
   def recovery
-    @volumes.find(&:recovery?)
+    @volumes.find(&:recovery?) || raise('recovery partition not found')
   end
 
   alias restore backup
