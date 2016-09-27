@@ -83,8 +83,10 @@ class Settings
   end
 
   def restore
-    `cp "#{recovery_file}" "#{LOCAL_FILE}"`
-    @data = YAML.load_file(LOCAL_FILE)
+    if persisted?
+      `cp "#{recovery_file}" "#{LOCAL_FILE}"`
+      @data = YAML.load_file(LOCAL_FILE)
+    end
   end
 
   def save
