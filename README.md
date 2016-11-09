@@ -83,14 +83,6 @@ setup/install
 
 ### Clear app data.
 
-#### Atom
-
-1. Remove the `~/.atom` directory.
-2. Create it again with `mkdir`.
-3. Run `maintenance/install_dotfiles`.
-4. Open Atom.
-5. Quit (⌘Q)
-
 #### Chrome
 
 1. Clear all browsing data from "the beginning of time".
