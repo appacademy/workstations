@@ -1,8 +1,14 @@
 #!/bin/bash
 
+get_data_dir() {
+  base="$HOME/Library/Application Support/Postgres"
+  dir="$( ls "$base" | grep 'var-' | tail -n 1 )"
+  echo "$base/$dir"
+}
+
 APP="Postgres"
 ADMIN_DIR="$(cd "$(dirname "$0")/../.." && pwd)"
-DATA="$HOME/Library/Application Support/Postgres/var-9.5"
+DATA="$(get_data_dir)"
 BACKUP_DATA="$ADMIN_DIR/cache/$APP"
 
 save() {
