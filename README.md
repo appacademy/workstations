@@ -59,6 +59,18 @@ You should only need to do this when creating a new disk image. You
 spec][workstation-image-spec] or `workstation-admin` will cache an old
 version of the settings and overwrite your changes in the first night.
 
+### Prepare to Clone.
+
+Follow the same [steps to ready the computer for the
+dotfiles][dotfiles-prep]. You don't need to download the dotfiles
+though. That will happen automatically later.
+
+### Clone the repo.
+
+```
+git clone https://github.com/appacademy/workstations.git ~/.workstation-admin
+```
+
 ### Install workstation-admin.
 
 This will install and configure the workstation, running the dotfiles
@@ -95,4 +107,5 @@ Quit (⌘Q)
 setup/cache_app_data
 ```
 
+[dotfiles-prep] https://github.com/appacademy/dotfiles/blob/master/README.md#preparing-your-machine-for-dotfiles
 [workstation-image-spec]: https://github.com/appacademy/instructors/blob/master/pre-cycle/workstation-image-spec.md
