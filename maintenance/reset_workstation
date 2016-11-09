@@ -30,7 +30,6 @@ cd maintenance/app_data
 
 ./chrome reset
 ./slack reset
-./iterm reset
 ./postgres reset
 
 empty ".Trash"

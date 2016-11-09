@@ -85,10 +85,6 @@ setup/install
 2. Quit (⌘Q)
 3. Run `setup/disable_chrome_signin_prompt`
 
-#### iTerm
-
-Quit (⌘Q)
-
 #### Slack
 
 Quit (⌘Q)

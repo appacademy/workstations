@@ -4,5 +4,4 @@ cd "$(dirname "$0")/../maintenance/app_data"
 
 ./chrome save
 ./slack save
-./iterm save
 ./postgres save
