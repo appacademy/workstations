@@ -3,6 +3,7 @@
 source /Users/appacademy/.bashrc
 
 sudo -u appacademy gem install plist
+sudo -u appacademy brew install ag
 
 rbenv shell system
 gem install plist
