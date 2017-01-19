@@ -99,5 +99,5 @@ Quit (⌘Q)
 setup/cache_app_data
 ```
 
-[dotfiles-prep] https://github.com/appacademy/dotfiles/blob/master/README.md#preparing-your-machine-for-dotfiles
+[dotfiles-prep]: https://github.com/appacademy/dotfiles/blob/master/README.md#preparing-your-machine-for-dotfiles
 [workstation-image-spec]: https://github.com/appacademy/instructors/blob/master/pre-cycle/workstation-image-spec.md
