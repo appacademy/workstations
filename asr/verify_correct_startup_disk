@@ -2,7 +2,7 @@
 
 cd "$(dirname "$0")"
 
-boot_volume="$(bless -getBoot)"
+boot_volume="$(basename "$(bless -getBoot)")"
 restored_volume="$(./asrdiskutil id backup)"
 
 if [[ "$boot_volume" = "$restored_volume" ]]; then
