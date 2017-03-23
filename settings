@@ -11,7 +11,7 @@ def get(key)
 end
 
 def set(args)
-  Settings.between_restore_and_save! { apply_args(args) }
+  Settings.with_sync_or_save! { apply_args(args) }
 end
 
 def set_local(args)

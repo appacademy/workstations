@@ -42,8 +42,8 @@ class Settings
     self.instance.respond_to?(method_name) || super
   end
 
-  def self.between_restore_and_sync!(&blk)
-    self.instance.between_restore_and_sync!(&blk)
+  def self.with_sync_or_save!(&blk)
+    self.instance.with_sync_or_save!(&blk)
   end
 
   def method_missing(method_name, *args)
@@ -79,8 +79,8 @@ class Settings
       if synced?
         restore
       else
-        $stderr.puts "no data to restore"
-        save_locally!
+        warn "no data to restore"
+        save!
       end
     end
   end
@@ -91,7 +91,7 @@ class Settings
     end
   end
 
-  def save_locally!
+  def save!
     # settings saved this way will be overwritten the next time
     # settings are saved or restored.
     File.write(LOCAL_FILE, @data.to_yaml)
@@ -102,6 +102,20 @@ class Settings
       restore
       yield
       sync
+    end
+  end
+
+  def with_sync_or_save!
+    if backup_available?
+      with_backup_mounted do
+        restore
+        yield
+        sync
+      end
+    else
+      warn 'Unable to sync. Backup not available.'
+      yield
+      save!
     end
   end
 
