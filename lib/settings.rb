@@ -21,16 +21,32 @@ class Settings
     File.join(recovery_volume.mount_point, ".aa_data.yaml")
   end
 
-  def self.method_missing(*args)
-    self.instance.send(*args)
+  def self.method_missing(method_name, *args)
+    if self.instance.respond_to?(method_name)
+      self.instance.send(method_name, *args)
+    else
+      super
+    end
+  end
+
+  def self.respond_to_missing?(method_name, include_private = false)
+    self.instance.respond_to?(method_name) || super
   end
 
   def self.between_restore_and_save!(&blk)
     self.instance.between_restore_and_save!(&blk)
   end
 
-  def method_missing(*args)
-    @data.send(*args)
+  def method_missing(method_name, *args)
+    if @data.respond_to?(method_name)
+      @data.send(method_name, *args)
+    else
+      super
+    end
+  end
+
+  def respond_to_missing?(method_name, include_private = false)
+    @data.respond_to?(method_name) || super
   end
 
   def all
