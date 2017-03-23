@@ -1,6 +1,6 @@
 # Hash-like singleton that controls access to the workstation settings.
-# The settings are persisted to the recovery partition, and #save! and
-# #restore! conrol this persistence. Using them requires root.
+# The settings are persisted to the backup partition, and #save! and
+# #restore! control this persistence. Using them requires root.
 
 require 'yaml'
 require 'singleton'
@@ -11,14 +11,14 @@ class Settings
 
   LOCAL_FILE = File.expand_path("../../cache/settings.yaml", __FILE__)
 
-  def recovery_volume
-    Diskutil.recovery
+  def backup_volume
+    Diskutil.backup
   end
 
-  def recovery_file
-    return nil unless recovery_volume.mounted?
+  def backup_file
+    return nil unless backup_volume.mounted?
 
-    File.join(recovery_volume.mount_point, ".aa_data.yaml")
+    File.join(backup_volume.mount_point, LOCAL_FILE)
   end
 
   def self.method_missing(method_name, *args)
@@ -62,11 +62,11 @@ class Settings
   end
 
   def persisted?
-    File.exist?(recovery_file)
+    File.exist?(backup_file)
   end
 
   def restore!
-    with_recovery_mounted do
+    with_backup_mounted do
       if persisted?
         restore
       else
@@ -77,7 +77,7 @@ class Settings
   end
 
   def save!
-    with_recovery_mounted do
+    with_backup_mounted do
       save
     end
   end
@@ -89,7 +89,7 @@ class Settings
   end
 
   def between_restore_and_save!
-    with_recovery_mounted do
+    with_backup_mounted do
       restore
       yield
       save
@@ -104,20 +104,20 @@ class Settings
 
   def restore
     if persisted?
-      `cp "#{recovery_file}" "#{LOCAL_FILE}"`
+      `cp "#{backup_file}" "#{LOCAL_FILE}"`
       @data = YAML.load_file(LOCAL_FILE)
     end
   end
 
   def save
-    File.write(recovery_file, @data.to_yaml)
-    `cp "#{recovery_file}" "#{LOCAL_FILE}"`
+    File.write(backup_file, @data.to_yaml)
+    `cp "#{backup_file}" "#{LOCAL_FILE}"`
   end
 
-  def with_recovery_mounted
-    recovery_volume.mount
+  def with_backup_mounted
+    backup_volume.mount
     yield
   ensure
-    recovery_volume.unmount
+    backup_volume.unmount
   end
 end
