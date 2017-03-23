@@ -3,7 +3,11 @@
 require_relative './lib/settings'
 
 def get(key)
-  puts Settings[key]
+  if key.nil?
+    puts Settings.all
+  else
+    puts Settings[key]
+  end
 end
 
 def set(args)

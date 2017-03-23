@@ -33,6 +33,10 @@ class Settings
     @data.send(*args)
   end
 
+  def all
+    @data.to_yaml
+  end
+
   def local_data?
     saved? && !@data.empty?
   end
