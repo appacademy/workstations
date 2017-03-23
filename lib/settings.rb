@@ -1,6 +1,7 @@
 # Hash-like singleton that controls access to the workstation settings.
-# The settings are persisted to the backup partition, and #save! and
-# #restore! control this persistence. Using them requires root.
+# The settings are saved to a file in the cache directory, but are also
+# synced with the backup partition. #sync! and #restore! control the
+# syncing.
 
 require 'yaml'
 require 'singleton'
@@ -21,6 +22,14 @@ class Settings
     File.join(backup_volume.mount_point, LOCAL_FILE)
   end
 
+  def backup_available?
+    with_backup_mounted do
+      File.directory?(File.dirname(backup_file))
+    end
+  rescue RuntimeError, "backup partition not found"
+    false
+  end
+
   def self.method_missing(method_name, *args)
     if self.instance.respond_to?(method_name)
       self.instance.send(method_name, *args)
@@ -33,8 +42,8 @@ class Settings
     self.instance.respond_to?(method_name) || super
   end
 
-  def self.between_restore_and_save!(&blk)
-    self.instance.between_restore_and_save!(&blk)
+  def self.between_restore_and_sync!(&blk)
+    self.instance.between_restore_and_sync!(&blk)
   end
 
   def method_missing(method_name, *args)
@@ -61,13 +70,13 @@ class Settings
     File.exist?(LOCAL_FILE)
   end
 
-  def persisted?
+  def synced?
     File.exist?(backup_file)
   end
 
   def restore!
     with_backup_mounted do
-      if persisted?
+      if synced?
         restore
       else
         $stderr.puts "no data to restore"
@@ -76,9 +85,9 @@ class Settings
     end
   end
 
-  def save!
+  def sync!
     with_backup_mounted do
-      save
+      sync
     end
   end
 
@@ -88,11 +97,11 @@ class Settings
     File.write(LOCAL_FILE, @data.to_yaml)
   end
 
-  def between_restore_and_save!
+  def between_restore_and_sync!
     with_backup_mounted do
       restore
       yield
-      save
+      sync
     end
   end
 
@@ -103,13 +112,13 @@ class Settings
   end
 
   def restore
-    if persisted?
+    if synced?
       `cp "#{backup_file}" "#{LOCAL_FILE}"`
       @data = YAML.load_file(LOCAL_FILE)
     end
   end
 
-  def save
+  def sync
     File.write(backup_file, @data.to_yaml)
     `cp "#{backup_file}" "#{LOCAL_FILE}"`
   end
