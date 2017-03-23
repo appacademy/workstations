@@ -16,7 +16,7 @@ end
 
 def set_local(args)
   apply_args(args)
-  Settings.save_locally!
+  Settings.save!
 end
 
 def apply_args(args)
