@@ -15,7 +15,6 @@ sudo -u appacademy maintenance/install_requirements
 sudo -u appacademy maintenance/install_dotfiles
 setup/install_dependencies
 
-./settings restore &>/dev/null
 maintenance/set_hostname
 setup/enable_accessibility
 launchctl/install
