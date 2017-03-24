@@ -34,6 +34,10 @@ def restore
   Settings.restore!
 end
 
+def sync
+  Settings.sync!
+end
+
 case ARGV[0]
 when 'get'
   get(ARGV[1])
@@ -41,6 +45,8 @@ when 'set'
   set(ARGV.drop(1))
 when 'set-local'
   set_local(ARGV.drop(1))
+when 'sync'
+  sync
 when 'restore'
   restore
 else

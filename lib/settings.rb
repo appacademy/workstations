@@ -70,13 +70,13 @@ class Settings
     File.exist?(LOCAL_FILE)
   end
 
-  def synced?
+  def backup_exists?
     File.exist?(backup_file)
   end
 
   def restore!
     with_backup_mounted do
-      if synced?
+      if backup_exists?
         restore
       else
         warn "no data to restore"
@@ -126,15 +126,13 @@ class Settings
   end
 
   def restore
-    if synced?
-      `cp "#{backup_file}" "#{LOCAL_FILE}"`
-      @data = YAML.load_file(LOCAL_FILE)
-    end
+    `cp "#{backup_file}" "#{LOCAL_FILE}"`
+    @data = YAML.load_file(LOCAL_FILE)
   end
 
   def sync
-    File.write(backup_file, @data.to_yaml)
-    `cp "#{backup_file}" "#{LOCAL_FILE}"`
+    File.write(LOCAL_FILE, @data.to_yaml)
+    `cp "#{LOCAL_FILE}" "#{backup_file}"`
   end
 
   def with_backup_mounted
