@@ -1,6 +1,8 @@
 #!/usr/bin/env ruby
 # requires root privileges
 
+raise 'Must be run as root' unless ENV['USER'] == 'root'
+
 require_relative '../lib/settings'
 
 Settings.restore! unless Settings.local_data?
