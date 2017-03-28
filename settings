@@ -1,8 +1,10 @@
 #!/usr/bin/env ruby
 
-raise 'Must be run as root' unless ENV['USER'] == 'root'
-
 require_relative './lib/settings'
+
+def require_root!
+  raise 'Must be run as root' unless ENV['USER'] == 'root'
+end
 
 def get(key)
   if key.nil?
@@ -13,10 +15,12 @@ def get(key)
 end
 
 def set(args)
+  require_root!
   Settings.with_sync_or_save! { apply_args(args) }
 end
 
 def set_local(args)
+  require_root!
   apply_args(args)
   Settings.save!
 end
@@ -33,10 +37,12 @@ def apply_args(args)
 end
 
 def restore
+  require_root!
   Settings.restore!
 end
 
 def sync
+  require_root!
   Settings.sync!
 end
 
