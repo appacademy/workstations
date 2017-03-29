@@ -17,15 +17,8 @@ save() {
 }
 
 reset() {
-  if pgrep "$APP" > /dev/null; then
-    osascript -e "quit application \"$APP\""
-    sleep 5
-  fi
-
   rm -rf "$DATA"
   cp -R "$BACKUP_DATA" "$DATA"
-
-  osascript -e "activate application \"$APP\""
 }
 
 case "$1" in
