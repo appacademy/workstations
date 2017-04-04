@@ -26,6 +26,9 @@ tell application "System Events" to display dialog ¬
 ' | grep 'Abort' && exit 1
 
 # reset the data
+git config --global user.name "App Academy Student"
+git config --global user.email "student@appacademy.io"
+
 cd maintenance/app_data
 
 ./chrome reset
