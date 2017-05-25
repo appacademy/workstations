@@ -59,6 +59,20 @@ You should only need to do this when creating a new disk image. You
 spec][workstation-image-spec] or `workstation-admin` will cache an old
 version of the settings and overwrite your changes in the first night.
 
+### Disable SIP
+
+Apple has an important security measure called **System Integrity
+Protection** that prevents certain changes to system files even in
+`root` mode. This unfortunately interferes with the admin install
+scripts. However, it does not interfere with everyday operation, so you
+only need to do this on the machine where you create the workstation
+image.
+
+1. Restart the machine in recovery mode (hold down ⌘R).
+2. Click on the **Utilities** menu and choose **Terminal**.
+3. Enter the command `csrutil disable`. This will disable SIP.
+4. Restart the machine again.
+
 ### Prepare to Clone.
 
 Follow the same [steps to ready the computer for the
