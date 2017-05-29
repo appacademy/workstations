@@ -23,7 +23,7 @@ class Settings
   end
 
   def backup_available?
-    with_backup_mounted do
+    backup_volume.with_mounted do
       File.directory?(File.dirname(backup_file))
     end
   rescue RuntimeError, "backup partition not found"
@@ -75,7 +75,7 @@ class Settings
   end
 
   def restore!
-    with_backup_mounted do
+    backup_volume.with_mounted do
       if backup_exists?
         restore
       else
@@ -86,7 +86,7 @@ class Settings
   end
 
   def sync!
-    with_backup_mounted do
+    backup_volume.with_mounted do
       sync
     end
   end
@@ -98,7 +98,7 @@ class Settings
   end
 
   def between_restore_and_sync!
-    with_backup_mounted do
+    backup_volume.with_mounted do
       restore
       yield
       sync
@@ -107,7 +107,7 @@ class Settings
 
   def with_sync_or_save!
     if backup_available?
-      with_backup_mounted do
+      backup_volume.with_mounted do
         restore
         yield
         sync
@@ -133,12 +133,5 @@ class Settings
   def sync
     File.write(LOCAL_FILE, @data.to_yaml)
     `cp "#{LOCAL_FILE}" "#{backup_file}"`
-  end
-
-  def with_backup_mounted
-    backup_volume.mount
-    yield
-  ensure
-    backup_volume.unmount
   end
 end

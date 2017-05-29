@@ -7,7 +7,9 @@ require_relative '../lib/diskutil'
 mountable_volume = Diskutil.instance.send(ARGV[0])
 root_volume = Diskutil.instance.send(ARGV[1])
 
-File.write(
-  File.join(root_volume.mount_point, 'etc/fstab'),
-  "UUID=#{mountable_volume.uuid} none hfs rw,noauto"
-)
+root_volume.with_mounted do
+  File.write(
+    File.join(root_volume.mount_point, 'etc/fstab'),
+    "UUID=#{mountable_volume.uuid} none hfs rw,noauto"
+  )
+end

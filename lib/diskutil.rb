@@ -94,6 +94,21 @@ class Volume
     @mount_point = nil
   end
 
+  def with_mounted
+    if mounted?
+      yield
+    else
+      between_mount_and_unmount { yield }
+    end
+  end
+
+  def between_mount_and_unmount
+    mount
+    yield
+  ensure
+    unmount
+  end
+
   def erase
     raise "can only erase backup drive" unless backup?
     unmount
