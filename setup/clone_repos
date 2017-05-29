@@ -2,6 +2,6 @@
 
 cd ~
 
-test -d .workstation-admin || git clone https://github.com/appacademy/workstations.git .workstation-admin
+test -d .workstation-admin || git clone git@github.com:appacademy/workstations.git .workstation-admin
 test -d .dotfiles || git clone https://github.com/appacademy/dotfiles.git .dotfiles
 test -d app-academy-chrome-tab || git clone https://github.com/appacademy/app-academy-chrome-tab.git app-academy-chrome-tab
