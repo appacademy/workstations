@@ -1,0 +1,11 @@
+#!/usr/bin/env ruby
+
+require_relative '../lib/diskutil'
+
+password = ARGV[0]
+raise "must give password as argument" unless password
+
+backup = Diskutil.backup
+backup.with_mounted do
+  system("osascript #{__FILE__}.scpt '#{backup.name}' '#{password}'")
+end
