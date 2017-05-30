@@ -13,7 +13,8 @@ class Diskutil
   def initialize
     @volumes = []
 
-    plist = Plist.parse_xml(`diskutil list -plist`)
+    raw_plist = DiskutilError.raise_if_fails("diskutil list -plist")
+    plist = Plist.parse_xml(raw_plist)
     plist["AllDisksAndPartitions"].each do |device|
       add_disk_or_volume(device)
     end
@@ -58,7 +59,8 @@ class Volume
 
   def uuid
     if @uuid.nil?
-      state_from_plist(Plist.parse_xml(`diskutil info -plist #{@id}`))
+      raw_plist = DiskutilError.raise_if_fails("diskutil info -plist '#{@id}'")
+      state_from_plist(Plist.parse_xml(raw_plist))
     end
 
     @uuid
@@ -83,14 +85,14 @@ class Volume
   def mount
     return @mount_point if mounted?
 
-    `diskutil mount "#{@id}"`
+    DiskutilError.raise_if_fails("diskutil mount '#{@id}'")
     @mount_point = "/Volumes/#{@name}"
   end
 
   def unmount
     return unless mounted?
 
-    `diskutil unmount "#{@id}"`
+    DiskutilError.raise_if_fails("diskutil unmount '#{@id}'")
     @mount_point = nil
   end
 
@@ -112,13 +114,13 @@ class Volume
   def erase
     raise "can only erase backup drive" unless backup?
     unmount
-    `diskutil eraseVolume "#{@id}"`
+    DiskutilError.raise_if_fails("diskutil eraseVolume '#{@id}'")
   end
 
   def name=(name)
     return if @name == name
 
-    `diskutil rename "#{id}" "#{name}"`
+    DiskutilError.raise_if_fails("diskutil rename '#{id}' '#{name}'")
     @name = name
   end
 
@@ -130,5 +132,15 @@ class Volume
     @type = plist['Content']
     @mount_point = plist['MountPoint']
     @uuid = plist['VolumeUUID']
+  end
+
+end
+
+class DiskutilError < RuntimeError
+
+  def self.raise_if_fails(command)
+    output = `#{command}`
+    raise self, "`#{command}` failed" unless $?.success?
+    output
   end
 end
