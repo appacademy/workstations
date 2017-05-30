@@ -11,10 +11,14 @@ id = Settings['id']
 pod = Settings['pod']
 station = Settings['station']
 student = Settings['student']
+staff = Settings['staff']
 
-if student
+if staff
+  computer_name = "Staff #{staff}"
+  host_name = "stf-#{staff}"
+elsif student
   computer_name = "Student #{student}"
-  host_name = "st-#{student}"
+  host_name = "std-#{student}"
 elsif pod && station
   computer_name = "Floor #{pod} #{station}"
   host_name = "fl-#{pod}-#{station}"
