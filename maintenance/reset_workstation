@@ -26,6 +26,7 @@ tell application "System Events" to display dialog ¬
 ' | grep 'Abort' && exit 1
 
 # reset the data
+git config --system --unset credential.helper
 git config --global user.name "App Academy Student"
 git config --global user.email "student@appacademy.io"
 
