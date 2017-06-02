@@ -1,6 +1,7 @@
 #!/bin/bash
 
 cd "$(dirname "$0")/.."
+source .bash_profile
 
 # ensure computer doesn't go to sleep until script finishes
 pmset noidle &
