@@ -1,10 +1,12 @@
-ADMIN_ROOT="/Users/appacademy/.workstation-admin"
+export HOME="/Users/appacademy"
+ADMIN_ROOT="$HOME/.workstation-admin"
 
 # normalize path
-echo "$PATH" | grep "/usr/local/bin" > /dev/null || export PATH="/usr/local/bin:$PATH"
+echo "$PATH" | grep "/usr/local/bin" > /dev/null \
+  || export PATH="/usr/local/bin:$PATH"
 
 # load standard terminal profile
-source /Users/appacademy/.bash_profile
+source "$HOME/.bash_profile"
 
 admin() {
   if [[ $# = '0' ]]; then
