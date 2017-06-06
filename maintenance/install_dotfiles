@@ -1,8 +1,7 @@
 #!/bin/bash
 # custom dotfiles install for appacademy machines
 
-# cd "$HOME/.dotfiles"
-cd ~/aa/repos/dev/dotfiles
+cd "$HOME/.dotfiles"
 
 echo 'y' | bin/install_dotfiles
 
