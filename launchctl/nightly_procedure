@@ -12,9 +12,6 @@ pmset displaysleepnow
 # turn wifi off
 networksetup -setairportpower en1 off
 
-# ensure rails 5 hasn't been installed
-gem uninstall --force rails -v 5 railties -v 5 &>/dev/null
-
 if ifconfig en0 | grep inet > /dev/null; then
   # network is connected
   maintenance/update_repos
