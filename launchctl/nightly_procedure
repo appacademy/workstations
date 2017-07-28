@@ -9,10 +9,13 @@ pmset noidle &
 # turn display off
 pmset displaysleepnow
 
-# turn wifi off
-networksetup -setairportpower en1 off
+# turn wifi off if not needed
+if ifconfig en0 inet | grep inet > /dev/null; then
+  networksetup -setairportpower en1 off
+fi
 
-if ifconfig en0 | grep inet > /dev/null; then
+if ifconfig en0 inet | grep inet > /dev/null \
+    || ifconfig en1 inet | grep inet > /dev/null; then
   # network is connected
   maintenance/update_repos
   maintenance/install_dotfiles
@@ -26,7 +29,8 @@ else
     "The network is disconnected. Please reconnect the cable." ¬
     buttons {"OK"} ¬
     default button "OK" ¬
-    with title "Network Disconnected"'
+    with title "Network Disconnected" ¬
+    giving up after 86330'
 
   exit 1
 fi
