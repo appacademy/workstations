@@ -45,12 +45,12 @@ class LaunchctlConfig
   def install
     File.write(config_path, to_plist)
 
-    `launchctl unload #{config_path} 2> /dev/null`
-    `launchctl load #{config_path}`
+    launchctl_unload
+    launchctl_load
   end
 
   def uninstall
-    `launchctl unload #{config_path} 2> /dev/null`
+    launchctl_unload
     File.delete(config_path)
   end
 
@@ -58,10 +58,22 @@ class LaunchctlConfig
     "com.workstation.#{@name}"
   end
 
+  def launchctl
+    "launchctl"
+  end
+
   private
 
   def config_path
     File.join(self.class::CONFIG_DIR, "#{label}.plist")
+  end
+
+  def launchctl_load
+    system("#{launchctl} load #{config_path}")
+  end
+
+  def launchctl_unload
+    system("#{launchctl} unload #{config_path} 2> /dev/null")
   end
 end
 
@@ -76,4 +88,10 @@ end
 class UserLaunchAgent < LaunchctlConfig
   home = ENV['USER'] == 'root' ? '/Users/appacademy' : ENV['HOME']
   CONFIG_DIR = File.join(home, 'Library/LaunchAgents').freeze
+
+  if ENV['USER'] == 'root'
+    def launchctl
+      "sudo -u appacademy launchctl"
+    end
+  end
 end
