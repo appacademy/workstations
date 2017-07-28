@@ -4,6 +4,6 @@ require_relative '../lib/launchctl'
 daemon = LaunchDaemon.new('boot-procedure')
 daemon.configure(
   Program: File.expand_path("../boot_procedure", __FILE__),
-  UserName: 'root'
+  RunAtLoad: true
 )
 daemon.install

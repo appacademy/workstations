@@ -3,3 +3,11 @@
 cd "$(dirname "$0")/.."
 
 maintenance/set_hostname
+
+# Wait 10 seconds because launchd might otherwise think it failed.
+# Yet another example of an unfathomable Apple OS decision. "I know,
+# let's get rid of startup items and instead pretend that all startup
+# items are actually daemons. Of course, the startup items will have to
+# play along and act like daemons." Apple, you suck.
+sleep 10
+exit 0
