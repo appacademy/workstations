@@ -5,29 +5,38 @@ fail() {
   exit 1
 }
 
-[[ $USER == 'root' ]] || fail "must be run as root"
-[[ -n "$1" ]] || fail 'You must provide the server IP address as the argument.'
-
-SERVER_ADDR="$1"
+[[ $USER == "root" ]] || fail "must be run as root"
 
 cd "$(dirname $0)"
 
-# ensure WiFi is off
-networksetup -setairportpower en1 off
+IMAGE_URI="$1"
+SOURCE_PATH="$( cd ../cache && pwd )/asr_image.dmg"
+
+download_image() {
+  [[ -n "$IMAGE_URI" ]] || fail "You must provide the image URI as an argument in order to download it."
+
+  ifconfig en0 | grep inet || echo "no wired internet connection, trying wireless..."
+  networksetup -setairportpower en1 on
+
+  curl "$IMAGE_URI" > "$SOURCE_PATH" || fail "could not download disk image"
+}
+
+# ensure disk image is downloaded
+test -s "$SOURCE_PATH" || download_image
 
 # prepare partition to be restored
-./asrdiskutil mount backup || fail 'could not mount backup volume'
-./asrdiskutil rename backup "AAStudentRestoring" || fail 'could not rename backup volume'
+./asrdiskutil mount backup || fail "could not mount backup volume"
+./asrdiskutil rename backup "AAStudentRestoring" || fail "could not rename backup volume"
 
 # begin restoration
-asr restore --source "asr://$SERVER_ADDR" \
+asr restore --source "$SOURCE_PATH" \
             --target "/dev/$(./asrdiskutil id backup)" \
             --erase --noprompt \
-            || fail 'restore process failed'
+            || fail "restore process failed"
 
 # rename partitions
-./asrdiskutil rename root "AAStudentBackup" || fail 'could not rename root volume'
-./asrdiskutil rename backup "AAStudent" || fail 'could not rename restored volume'
+./asrdiskutil rename root "AAStudentBackup" || fail "could not rename root volume"
+./asrdiskutil rename backup "AAStudent" || fail "could not rename restored volume"
 ./prevent_auto_mount root backup
 ../settings sync
 echo "Restore completed."
