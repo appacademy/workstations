@@ -16,9 +16,3 @@ TARGET="$( cd ../cache && pwd )/asr_image.dmg"
 cp "$SOURCE" "$TARGET" || fail "could not copy disk image"
 
 ./asrdiskutil unmount flash
-
-osascript -e 'display dialog ¬
-  "Disc image successfully copied. You may pass on the flash drive." ¬
-    with title "Workstation Restore" ¬
-    buttons {"OK"} default button "OK" ¬
-    giving up after 60'
