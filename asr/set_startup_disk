@@ -7,5 +7,6 @@ raise "must give password as argument" unless password
 
 backup = Diskutil.backup
 backup.with_mounted do
-  system("osascript #{__FILE__}.scpt '#{backup.name}' '#{password}'")
+  success = system("osascript #{__FILE__}.scpt '#{backup.name}' '#{password}'")
+  exit 1 unless success
 end

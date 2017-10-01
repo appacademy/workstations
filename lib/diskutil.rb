@@ -76,11 +76,15 @@ class Volume
   end
 
   def backup?
-    !root? && @type == 'Apple_HFS'
+    !root? && os?
   end
 
   def recovery?
     @type == 'Apple_Boot'
+  end
+
+  def os?
+    @type == 'Apple_HFS' && !usb?
   end
 
   def flash?

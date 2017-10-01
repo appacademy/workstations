@@ -3,16 +3,16 @@
 message() {
   if [[ "$LOG_MESSAGES" == 'true' ]]; then
     echo "$1" >&2
-    return
+    return 0
   fi
 
   timeout="$2"
   [[ -z "$timeout" ]] && timeout=20
 
   osascript -e "tell application \"System Events\" to display dialog ¬
-    "$1" with title \"Workstation Restore\" ¬
+    \"$1\" with title \"Workstation Restore\" ¬
     buttons {\"OK\"} default button ¬
-    \"OK\" giving up after $2"
+    \"OK\" giving up after $timeout"
 }
 
 fail() {
@@ -28,16 +28,16 @@ cd "$( dirname "$0" )"
 message "Copying the disk image. This may take a while. Please leave\
  the flash drive in and the terminal open."
 
-./copy_disk_image || fail "Could not copy disk image."
+./copy_disk_image || fail "Could not copy disk image"
 
 message "Disk image successfully copied. You may pass on the flash drive." 40
 message "The restore process will now begin. Continue to leave the terminal open."
 
-./restore || fail "Could not restore disk."
+./restore || fail "Could not restore disk"
 
 message "The restore process will need to take control of your screen\
  for a moment. Please wait. Thank you."
 
-./set_startup_disk "$password" || fail "Could not set startup disk."
+./set_startup_disk "$password" || fail "Could not set startup disk"
 
 message "The restore process is finished. Thank you for waiting.", 0
