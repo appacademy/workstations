@@ -1,35 +1,22 @@
 #!/bin/bash
 
 fail() {
-  echo "$(basename $0) failed: $1" >&2
+  echo "$( basename "$0" ) failed: $1" >&2
   exit 1
 }
 
 [[ $USER == "root" ]] || fail "must be run as root"
 
-cd "$(dirname $0)"
+cd "$( dirname "$0" )"
 
-IMAGE_URI="$1"
-SOURCE_PATH="$( cd ../cache && pwd )/asr_image.dmg"
-
-download_image() {
-  [[ -n "$IMAGE_URI" ]] || fail "You must provide the image URI as an argument in order to download it."
-
-  ifconfig en0 | grep inet || echo "no wired internet connection, trying wireless..."
-  networksetup -setairportpower en1 on
-
-  curl "$IMAGE_URI" > "$SOURCE_PATH" || fail "could not download disk image"
-}
-
-# ensure disk image is downloaded
-test -s "$SOURCE_PATH" || download_image
+SOURCE="$( cd ../cache && pwd )/asr_image.dmg"
 
 # prepare partition to be restored
 ./asrdiskutil mount backup || fail "could not mount backup volume"
 ./asrdiskutil rename backup "AAStudentRestoring" || fail "could not rename backup volume"
 
 # begin restoration
-asr restore --source "$SOURCE_PATH" \
+asr restore --source "$SOURCE" \
             --target "/dev/$(./asrdiskutil id backup)" \
             --erase --noprompt \
             || fail "restore process failed"

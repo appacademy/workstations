@@ -32,6 +32,10 @@ class Diskutil
     @volumes.find(&:recovery?) || raise('recovery partition not found')
   end
 
+  def flash
+    @volumes.find(&:flash?) || raise('flash drive not found')
+  end
+
   alias restore backup
 
   private
@@ -58,12 +62,13 @@ class Volume
   end
 
   def uuid
-    if @uuid.nil?
-      raw_plist = DiskutilError.raise_if_fails("diskutil info -plist '#{@id}'")
-      state_from_plist(Plist.parse_xml(raw_plist))
-    end
-
+    fetch_extra_state if @uuid.nil?
     @uuid
+  end
+
+  def usb?
+    fetch_extra_state if @usb.nil?
+    @protocol == 'USB'
   end
 
   def root?
@@ -76,6 +81,10 @@ class Volume
 
   def recovery?
     @type == 'Apple_Boot'
+  end
+
+  def flash?
+    @type == 'Apple_HFS' && usb?
   end
 
   def mounted?
@@ -132,8 +141,13 @@ class Volume
     @type = plist['Content']
     @mount_point = plist['MountPoint']
     @uuid = plist['VolumeUUID']
+    @protocol = plist['BusProtocol']
   end
 
+  def fetch_extra_state
+    raw_plist = DiskutilError.raise_if_fails("diskutil info -plist '#{@id}'")
+    state_from_plist(Plist.parse_xml(raw_plist))
+  end
 end
 
 class DiskutilError < RuntimeError
