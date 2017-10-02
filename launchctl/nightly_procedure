@@ -14,23 +14,6 @@ if ifconfig en0 inet | grep inet > /dev/null; then
   networksetup -setairportpower en1 off
 fi
 
-if ifconfig en0 inet | grep inet > /dev/null \
-    || ifconfig en1 inet | grep inet > /dev/null; then
-  # network is connected
-  maintenance/update_repos
-  maintenance/install_dotfiles
-  maintenance/reset_workstation
-else
-  # network is not connected
-  maintenance/reset_workstation
-
-  osascript -e '
-  tell application "System Events" to display dialog ¬
-    "The network is disconnected. Please reconnect the cable." ¬
-    buttons {"OK"} ¬
-    default button "OK" ¬
-    with title "Network Disconnected" ¬
-    giving up after 86330'
-
-  exit 1
-fi
+maintenance/update_repos
+maintenance/install_dotfiles
+maintenance/reset_workstation
