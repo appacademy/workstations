@@ -10,10 +10,10 @@ cd "$( dirname "$0" )"
 FLASH_MOUNT="$( ./asrdiskutil mount_point flash )"
 [[ -n "$FLASH_MOUNT" ]] || fail "flash drive not mounted"
 
-SOURCE="$FLASH_MOUNT/asr_image.dmg"
+SOURCE="file://$FLASH_MOUNT/asr_image.dmg"
 TARGET="$( cd ../cache && pwd )/asr_image.dmg"
 
-cp "$SOURCE" "$TARGET" || fail "could not copy disk image"
+curl "$SOURCE" > "$TARGET" || fail "could not copy disk image"
 
 ./asrdiskutil unmount flash
 
