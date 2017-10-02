@@ -29,5 +29,6 @@ asr restore --source "$SOURCE" \
 ./prevent_auto_mount root backup
 ../settings sync
 HOME="$( ./asrdiskutil mount_point backup )$HOME" maintenance/update_repos
+../setup/enable_accessibility "$( ./asrdiskutil mount_point backup )"
 
 echo "Restore completed."
