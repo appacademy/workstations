@@ -24,6 +24,10 @@ asr restore --source "$SOURCE" \
 # rename partitions
 ./asrdiskutil rename root "AAStudentBackup" || fail "could not rename root volume"
 ./asrdiskutil rename backup "AAStudent" || fail "could not rename restored volume"
+
+# set up files on newly restored partition
 ./prevent_auto_mount root backup
 ../settings sync
+HOME="$( ./asrdiskutil mount_point backup )$HOME" maintenance/update_repos
+
 echo "Restore completed."
