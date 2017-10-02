@@ -67,7 +67,7 @@ class Volume
   end
 
   def usb?
-    fetch_extra_state if @usb.nil?
+    fetch_extra_state if @protocol.nil?
     @protocol == 'USB'
   end
 
@@ -92,7 +92,7 @@ class Volume
   end
 
   def mounted?
-    !@mount_point.nil?
+    !(@mount_point.nil? || @mount_point.empty?)
   end
 
   def mount
