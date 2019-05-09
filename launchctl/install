@@ -3,5 +3,4 @@
 cd "$(dirname "$0")"
 
 ./remove_all
-./install_boot_procedure
 ./install_nightly_procedure

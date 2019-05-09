@@ -13,7 +13,7 @@ backup_and_empty() {
 cd "$(dirname "$0")/.."
 
 # only do this if this computer is marked for data resets
-[[ "$( ./settings get reset-data )" == "true" ]] || exit 1
+[[ -f "$HOME/.no-workstation-reset" ]] || exit 1
 
 # make sure no one is using this computer right now
 osascript -e '
@@ -32,7 +32,7 @@ git config --global user.email "student@appacademy.io"
 
 cd maintenance/app_data
 
-./chrome reset
+# ./chrome reset
 ./slack reset
 ./postgres reset
 

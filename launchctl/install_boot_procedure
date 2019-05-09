@@ -1,9 +1,0 @@
-#!/usr/bin/env ruby
-require_relative '../lib/launchctl'
-
-daemon = LaunchDaemon.new('boot-procedure')
-daemon.configure(
-  Program: File.expand_path("../boot_procedure", __FILE__),
-  RunAtLoad: true
-)
-daemon.install

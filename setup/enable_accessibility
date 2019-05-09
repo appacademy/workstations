@@ -7,10 +7,6 @@ INSERT or REPLACE
 INTO access
 VALUES (
   'kTCCServiceAccessibility',
-  'com.apple.RemoteDesktopAgent',
-  0, 1, 1, NULL, NULL
-), (
-  'kTCCServiceAccessibility',
   'com.apple.Terminal',
   0, 1, 1, NULL, NULL
 )"

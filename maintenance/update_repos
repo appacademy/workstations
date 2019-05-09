@@ -1,9 +1,5 @@
 #!/bin/bash
 
-DOTFILES="$HOME/.dotfiles"
-APP_ACADEMY_CHROME_TAB="$HOME/app-academy-chrome-tab"
-WORKSTATION_ADMIN="$HOME/.workstation-admin"
-
 update() {
   cd "$1"
   git stash
@@ -12,6 +8,5 @@ update() {
   git reset --hard origin/master
 }
 
-update "$DOTFILES"
-update "$APP_ACADEMY_CHROME_TAB"
-update "$WORKSTATION_ADMIN"
+update "$HOME/.dotfiles"
+update "$HOME/.workstation-admin"

@@ -27,7 +27,6 @@ asr restore --source "$SOURCE" \
 
 # set up files on newly restored partition
 ./prevent_auto_mount root backup
-../settings sync
 HOME="$( ./asrdiskutil mount_point backup )$HOME" ../maintenance/update_repos
 
 echo "Restore completed."
