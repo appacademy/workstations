@@ -11,7 +11,7 @@ cd "$( dirname "$0" )/.."
 
 sudo -u appacademy maintenance/update_repos
 sudo -u appacademy setup/install_gca
+sudo -u appacademy setup/install_crontab
 setup/install_dependencies
 
 setup/enable_accessibility
-launchctl/install
