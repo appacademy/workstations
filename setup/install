@@ -9,10 +9,8 @@ fail() {
 
 cd "$( dirname "$0" )/.."
 
-sudo -u appacademy setup/clone_repos
 sudo -u appacademy maintenance/update_repos
-sudo -u appacademy maintenance/install_requirements
-sudo -u appacademy maintenance/install_dotfiles
+sudo -u appacademy setup/install_gca
 setup/install_dependencies
 
 setup/enable_accessibility

@@ -31,9 +31,7 @@ image.
 
 ### Prepare to Clone.
 
-Follow the same [steps to ready the computer for the
-dotfiles][dotfiles-prep]. You don't need to download the dotfiles
-though. That will happen automatically later.
+Follow the [procedure for setting up our computer environment][env-setup] from the curriculum.
 
 ### Clone the repo.
 
@@ -43,9 +41,7 @@ git clone https://github.com/appacademy/workstations.git ~/.workstation-admin
 
 ### Install workstation-admin.
 
-This will install and configure the workstation, running the dotfiles
-scripts, augmenting them, and adding hooks for maintenance scripts to
-run.
+This will add the extra packages and configuration needed to for this repo to work properly.
 
 ```
 setup/install
@@ -57,7 +53,6 @@ setup/install
 
 1. Clear all browsing data from "the beginning of time".
 2. Quit (⌘Q)
-3. Run `setup/disable_chrome_signin_prompt`
 
 #### Slack
 
@@ -69,5 +64,5 @@ Quit (⌘Q)
 setup/cache_app_data
 ```
 
-[dotfiles-prep]: https://github.com/appacademy/dotfiles/blob/master/README.md#preparing-your-machine-for-dotfiles
+[env-setup]:
 [workstation-image-spec]: https://github.com/appacademy/instructors/blob/master/pre-cycle/workstation-image-spec.md

@@ -1,0 +1,12 @@
+#!/bin/bash
+
+HOUR="2"
+MINUTE="00"
+
+cd "$(dirname "$0")/.."
+pmset repeat wakeorpoweron MTWRF "$HOUR:$MINUTE:00"
+
+crontab -u jrw <<CRONTAB
+#m h d m dow  command
+ $(($MINUTE+1)) $HOUR * * 1-5  cd "$(pwd)"; maintenance/nightly_procedure >> cache/cron.log 2>&1
+CRONTAB

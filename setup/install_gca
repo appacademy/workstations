@@ -1,12 +1,6 @@
 #!/bin/bash
-# custom dotfiles install for appacademy machines
-
-cd "$HOME/.dotfiles"
-
-echo 'y' | bin/install_dotfiles
-
 # custom configuration
-cat <<EOF >> ~/.aliases
+cat <<EOF >> "$HOME/.bash_profile"
 function git_change_authorship {
   git filter-branch -f --env-filter "
     GIT_AUTHOR_NAME=\"\$1\"

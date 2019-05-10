@@ -1,6 +1,0 @@
-#!/bin/bash
-
-cd ~
-
-test -d .workstation-admin || git clone git@github.com:appacademy/workstations.git .workstation-admin
-test -d .dotfiles || git clone https://github.com/appacademy/dotfiles.git .dotfiles

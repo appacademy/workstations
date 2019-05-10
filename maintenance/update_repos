@@ -8,5 +8,4 @@ update() {
   git reset --hard origin/master
 }
 
-update "$HOME/.dotfiles"
 update "$HOME/.workstation-admin"

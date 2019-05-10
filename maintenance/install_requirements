@@ -1,6 +1,0 @@
-#!/bin/bash
-# custom requirements install for appacademy machines
-
-cd "$HOME/.dotfiles"
-
-bin/install_requirements -n
