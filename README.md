@@ -64,5 +64,5 @@ Quit (⌘Q)
 setup/cache_app_data
 ```
 
-[env-setup]:
 [workstation-image-spec]: https://github.com/appacademy/instructors/blob/master/pre-cycle/workstation-image-spec.md
+[env-setup]: https://open.appacademy.io/learn/full-stack-in-person/full-stack-in-person-ruby/setting-up-a-development-environment--phase-1-
