@@ -3,6 +3,3 @@
 source /Users/appacademy/.bash_profile
 
 sudo -u appacademy gem install plist
-
-rbenv shell system
-gem install plist
