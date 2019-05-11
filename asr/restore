@@ -22,7 +22,7 @@ asr restore --source "$SOURCE" \
             || fail "restore process failed"
 
 # rename partitions
-./asrdiskutil rename root "AAStudentBackup" || fail "could not rename root volume"
+# ./asrdiskutil rename root "AAStudentBackup" || fail "could not rename root volume"
 ./asrdiskutil rename backup "AAStudent" || fail "could not rename restored volume"
 
 # set up files on newly restored partition
