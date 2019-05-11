@@ -8,7 +8,7 @@ INTO access
 VALUES (
   'kTCCServiceAccessibility',
   'com.apple.Terminal',
-  0, 1, 1, NULL, NULL
+  0, 1, 1, NULL
 )"
 
 sudo sqlite3 "$DB" "$SQL"

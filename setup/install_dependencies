@@ -2,4 +2,4 @@
 
 source /Users/appacademy/.bash_profile
 
-sudo -u appacademy gem install plist
+sudo -u appacademy gem install plist --no-ri --no-rdoc
