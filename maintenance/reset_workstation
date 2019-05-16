@@ -11,16 +11,16 @@ backup_and_empty() {
 }
 
 # only do this if this computer is marked for data resets
-[[ -f "$HOME/.no-workstation-reset" ]] || exit 1
+if [[ -f "$HOME/.no-workstation-reset" ]]; then
+  echo "reset disabled"
+  exit 0
+fi
 
 source "$HOME/.bash_profile"
 cd "$(dirname "$0")/.."
 
 # ensure computer doesn't go to sleep until script finishes
 pmset noidle &
-
-# turn display off
-pmset displaysleepnow
 
 # make sure no one is using this computer right now
 osascript -e '

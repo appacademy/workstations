@@ -9,3 +9,4 @@ update() {
 }
 
 update "$HOME/.workstation-admin"
+update "$HOME/.dotfiles"

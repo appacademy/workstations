@@ -1,6 +1,12 @@
 #!/bin/bash
 
+echo "initiating nightly procedure at $(date)"
+echo "setting environment"
+
+# guarantee consistent base PATH
+export PATH=":/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin"
 source "$HOME/.bash_profile"
+
 cd "$(dirname "$0")"
 
 # ensure computer doesn't go to sleep until script finishes
@@ -9,5 +15,7 @@ pmset noidle &
 # turn display off
 pmset displaysleepnow
 
+echo "updating repos..."
 ./update_repos
+echo "resetting workstation"
 ./reset_workstation
