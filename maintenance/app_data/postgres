@@ -14,6 +14,7 @@ BACKUP_DATA="$ADMIN_DIR/cache/$APP"
 save() {
   rm -rf "$BACKUP_DATA"
   cp -R "$DATA" "$BACKUP_DATA"
+  test -f "$BACKUP_DATA/postmaster.pid" && rm "$BACKUP_DATA/postmaster.pid"
 }
 
 reset() {

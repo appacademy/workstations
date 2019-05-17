@@ -33,14 +33,18 @@ tell application "System Events" to display dialog ¬
 ' | grep 'Abort' && exit 1
 
 # reset the data
-git config --system --unset credential.helper
 git config --global user.name "App Academy Student"
 git config --global user.email "student@appacademy.io"
+# truncate the system gitconfig to remove credential.helper
+>| /usr/local/etc/gitconfig
+
+POSTMASTER="cache/Postgres/postmaster.pid"
+test -f "$POSTMASTER" && rm "$POSTMASTER"
 
 cd maintenance/app_data
 
 # ./chrome reset
-./slack reset
+# ./slack reset
 ./postgres reset
 
 empty ".Trash"
